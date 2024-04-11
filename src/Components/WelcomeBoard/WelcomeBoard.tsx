@@ -1,13 +1,19 @@
 import {useState} from "react";
 import "./WelcomeBoard.css";
 import WelcomeBoardPlayerContainer from "./WelcomeBoardPlayerContainer";
+import {Player} from "../Types";
 
 function WelcomeBoard({onStartGame}: {onStartGame: any}) {
 
     const [numOfPlayers] = useState(1);
 
     const handleStartGame = () => {
-        onStartGame(numOfPlayers);
+        const playerData = localStorage.getItem("playersData")
+        const players = (playerData ? JSON.parse(playerData) : []);
+        if (players.length > 0 && players.every((player: Player) => player.name.trim() !== '' && player.chipBalance !== null))
+            onStartGame(numOfPlayers);
+        else
+            alert("Please fill all players' data");
     }
 
     return (
@@ -23,14 +29,5 @@ function WelcomeBoard({onStartGame}: {onStartGame: any}) {
         </div>
     )
 }
-
-// <input type={"number"}
-//        value={numDecks}
-//        onChange={handleChangeNumDecks}
-//        onKeyDown={handleKeyDown}
-//        min={1}
-//        max={10}/>
-// <button onClick={handleDecrementDecks}>-</button>
-// <button onClick={handleIncrementDecks}>+</button>
 
 export default WelcomeBoard;

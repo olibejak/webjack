@@ -1,19 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import WelcomeBoardPlayerCard from './WelcomeBoardPlayerCard';
 import { IoPersonAddSharp } from "react-icons/io5";
-import playersData from './players.json';
+import {Player} from "../Types"
 import { v4 as uuidv4 } from 'uuid';
 
-type Player = {
-    id: string;
-    name: string;
-    chipBalance: number;
-};
-
 function WelcomeBoardPlayerContainer() {
-    const newPlayerDefault: Player = { id: uuidv4(), name: '', chipBalance: 451 };
-
-    const [players, setPlayers] = useState<Player[]>(playersData);
+    const newPlayerDefault: Player = { id: uuidv4(), name: '', chipBalance: 100 };
+    const playersDataString = localStorage.getItem('playersData');
+    const [players, setPlayers] = useState<Player[]>(playersDataString ? JSON.parse(playersDataString) : []);
 
     const addPlayer = () => {
         setPlayers(prevPlayers => [...prevPlayers, newPlayerDefault]);

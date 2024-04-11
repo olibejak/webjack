@@ -1,14 +1,29 @@
 import React, { useState, useEffect } from 'react';
-import { IoPersonAdd } from "react-icons/io5";
 import './App.css';
-import WelcomeForm from "./Components/WelcomeBoard";
+import WelcomeForm from "./Components/WelcomeBoard/WelcomeBoard";
 import Board from "./Components/Board";
-import WelcomeBoardPlayerCard from "./Components/./WelcomeBoardPlayerCard";
-import BackgroundMusic from "./Components/BackgroundMusic";
+import BackgroundMusic from "./Components/BackgroundMusic/BackgroundMusic";
+import {v4 as uuidv4} from "uuid";
 
 function App() {
 
   const [gameStarted, setGameStarted] = useState(false);
+
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.ctrlKey && event.key === 'F5') {
+        localStorage.getItem('playersData');
+        const defaultPlayer = JSON.stringify([{id : uuidv4(), name: '', chipBalance: 100 }]);
+        localStorage.setItem('playersData', defaultPlayer);
+      }
+    };
+
+    // window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, []);
 
   // Define a function to handle game start
   const handleStartGame = () => {

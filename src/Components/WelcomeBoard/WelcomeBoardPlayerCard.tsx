@@ -1,11 +1,6 @@
 import React from 'react';
 import { IoPersonRemoveSharp  } from 'react-icons/io5';
-
-type Player = {
-    id: string;
-    name: string;
-    chipBalance: number;
-};
+import {Player} from "../Types"
 
 function WelcomeBoardPlayerCard({player, removePlayer, updatePlayer,}: {
     player: Player;
