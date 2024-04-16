@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import { MdMusicNote, MdMusicOff, MdSkipNext, MdSkipPrevious } from "react-icons/md";
 import VolumeChanger from "./VolumeChanger";
+import "./BackgroundMusic.css"
 
 function BackgroundMusic() {
     const [audio] = useState(new Audio('/GAMBA.mp3')); // Initialize with the first song

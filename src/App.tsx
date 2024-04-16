@@ -9,17 +9,19 @@ function App() {
 
   const [gameStarted, setGameStarted] = useState(false);
 
+  /**
+   * Deleting playerData and initializing with empty player on ctr + F5
+   */
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
+      // window.addEventListener('keydown', handleKeyDown);
       if (event.ctrlKey && event.key === 'F5') {
         localStorage.getItem('playersData');
         const defaultPlayer = JSON.stringify([{id : uuidv4(), name: '', chipBalance: 100 }]);
         localStorage.setItem('playersData', defaultPlayer);
       }
     };
-
-    // window.addEventListener('keydown', handleKeyDown);
-
+    window.addEventListener('keydown', handleKeyDown);
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
