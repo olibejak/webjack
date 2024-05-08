@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import WelcomeForm from "./Components/WelcomeBoard/WelcomeBoard";
-import Board from "./Components/Board";
+import Board from "./Components/Board/Board";
 import BackgroundMusic from "./Components/BackgroundMusic/BackgroundMusic";
+import Navbar from "./Components/Navbar/Navbar";
 import {v4 as uuidv4} from "uuid";
 
 function App() {
@@ -52,7 +53,8 @@ function App() {
   }, [gameStarted]);
 
   return (
-      <div>
+      <>
+        <Navbar/>
           <BackgroundMusic />
         {/* Conditionally render either WelcomeForm or Board based on gameStarted state */}
         {gameStarted ? (
@@ -63,7 +65,7 @@ function App() {
         ) : (
             <WelcomeForm onStartGame={handleStartGame}/>
         )}
-      </div>
+      </>
   );
   // return <WelcomeBoardPlayerCard name={"Jakub"} chipBalance={100}></WelcomeBoardPlayerCard>;
 }

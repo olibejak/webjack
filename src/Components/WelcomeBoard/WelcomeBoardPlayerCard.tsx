@@ -2,7 +2,8 @@ import React from 'react';
 import { IoPersonRemoveSharp  } from 'react-icons/io5';
 import {Player} from "../Types"
 
-function WelcomeBoardPlayerCard({player, removePlayer, updatePlayer,}: {
+function WelcomeBoardPlayerCard({index, player, removePlayer, updatePlayer,}: {
+    index: number;
     player: Player;
     removePlayer: (player: Player) => void;
     updatePlayer: (updatedPlayer: Player) => void;
@@ -22,18 +23,19 @@ function WelcomeBoardPlayerCard({player, removePlayer, updatePlayer,}: {
             <button onClick={() => removePlayer(player)}>
                 <IoPersonRemoveSharp />
             </button>
-            <label className="label1">Name:</label>
-            <input className="input1"
+            <label className="label1" key={`player-${index}-name`}>Name:</label>
+            <input id={`player-${index}-name`}
+                   className="input1"
                    type="text"
                    value={player.name}
                    onChange={handleNameChange}
             />
-            <label className="label2">Chip balance:</label>
-            <input
-                className="input2"
-                type="number"
-                value={player.chipBalance.toString()}
-                onChange={handleChipBalanceChange}
+            <label className="label2" key={`player-${index}-chip-balance`}>Chip balance:</label>
+            <input id={`player-${index}-chip-balance`}
+                   className="input2"
+                   type="number"
+                   value={player.chipBalance.toString()}
+                   onChange={handleChipBalanceChange}
             />
         </li>
     );

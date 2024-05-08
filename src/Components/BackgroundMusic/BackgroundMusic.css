@@ -39,7 +39,31 @@
     align-items: center;
 }
 
-.volume-changer > * {
+.volume-changer svg {
     margin: 0.2em;
     font-size: 2em;
+}
+
+.music-button:hover {
+    /*background: linear-gradient(45deg, #333 5%, #222 95%);*/
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.7);
+}
+
+/*Background Music*/
+.background-music {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: right;
+    /*border: 2px solid #ccc;*/
+}
+
+.background-music > * {
+    margin: 0.1em;
+}
+
+.volume-changer {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }

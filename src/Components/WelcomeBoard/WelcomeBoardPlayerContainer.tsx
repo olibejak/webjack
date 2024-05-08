@@ -40,6 +40,7 @@ function WelcomeBoardPlayerContainer() {
                 {players.map((player, index) => (
                     <WelcomeBoardPlayerCard
                         key={index}
+                        index={index}
                         player={player}
                         removePlayer={removePlayer}
                         updatePlayer={updatePlayer}

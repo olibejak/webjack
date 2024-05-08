@@ -1,0 +1,8 @@
+nav {
+
+    position: fixed;
+    background: black;
+    height: 5em;
+    width: 100%;
+    top: 0;
+}
