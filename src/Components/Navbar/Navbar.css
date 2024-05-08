@@ -1,8 +1,80 @@
 nav {
-
-    position: fixed;
-    background: black;
+    display: flex;
+    position: absolute;
+    background: #000000;
+    /*background: #525252;*/
     height: 5em;
     width: 100%;
     top: 0;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 1em;
+    box-sizing: border-box;
+}
+
+nav button, .restart-button, .hamburger-icon {
+    justify-self: left;
+    order: -1;
+    place-self: flex-start;
+    align-self: center;
+    display: flex;
+    font-size: 20px;
+    padding: 10px;
+    font-weight: 600;
+    border: none;
+    outline: none;
+    color: #fff;
+    background: linear-gradient(45deg, #222 5%, #333 95%);
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    border-radius: 12px;
+    /*border-radius: 50% / 50% ;*/
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+}
+
+nav h1 {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    text-transform: capitalize;
+    color: #fff;
+    text-align: center;
+    font-size: 3em;
+    font-family: Times New Roman, serif;
+}
+
+.dropdown-menu, .hamburger-icon {
+    display: none;
+}
+
+.restart-button {
+    order: 2;
+}
+
+@media (max-width: 1035px) {
+    nav button, nav .background-music{
+        display: none;
+    }
+
+    .hamburger-icon {
+        display: block;
+        margin-left: auto;
+    }
+
+    .menu-expanded {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        z-index: 2;
+        position: absolute;
+        top: 5em;
+        margin-left: auto;
+        right: 0; /* Align the menu to the right */
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        padding: 10px;
+        width: 150px;
+        border-radius: 4px;
+        background: rgba(0, 0, 0, .5);
+    }
 }

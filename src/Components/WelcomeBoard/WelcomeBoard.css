@@ -3,6 +3,7 @@
     top: 50%;
     left: 50%;
     width: 100vh;
+    /*height: 70vh;*/
     transform: translate(-50%, -50%);
     display: grid;
     padding: 6px 16px;
@@ -33,6 +34,26 @@
     align-items: center;
 }
 
+.welcomeForm .info  {
+    grid-area: info;
+}
+
+.welcomeForm article {
+    display: block;
+    height: 40vh;
+    overflow: scroll;
+    overflow-x: hidden;
+    letter-spacing: .1rem;
+}
+
+.welcomeForm article a {
+    text-decoration: none;
+    color: lightblue;
+}
+
+.welcomeForm article a:hover {
+    text-decoration: underline;
+}
 
 #start-button {
     place-self: center;
@@ -53,19 +74,21 @@
 
 /*Player Container*/
 .player-container {
-
     margin-left: 60px;
     grid-area: player-container;
 }
 
 #👤 {
     display: flex;
-    justify-content: center; /* Horizontally center the list items */
     flex-direction: column;
     align-items: center;
     padding: 0;
     text-decoration: none;
     list-style: none;
+    overflow: scroll;
+    overflow-x: hidden;
+    height: 40vh;
+    gap: 0.6em;
 }
 
 #👤 li {
@@ -75,23 +98,24 @@
 
     /* Player Card */
     .player-card {
-        min-height: 25px; /* Reduce the minimum height */
-        max-height: 6em;
+        height: 6em;
         max-width: 25em;
-        font-size: 1em; /* Adjust the font size */
-        padding: 5px;
+        font-size: 1em;
         display: grid;
         grid-template-columns: 20% 80%;
         grid-template-rows: 25% 25% 25% 25%;
         border: 1px solid #ccc;
         border-radius: 8px;
-        margin-bottom: 0.6em; /* Spacing between player cards */
-
+        box-sizing: border-box;
         grid-template-areas:
                     "button1 label1"
                     "button1 input1"
                     "button1 label2"
                     "button1 input2";
+    }
+
+    .player-card:last-child {
+        margin-bottom: 0.5em;
     }
 
     .player-card .label1 {
@@ -166,6 +190,10 @@
         box-sizing: content-box;
         height: 2em;
         width: 5em;
+    }
+
+    #👤, .welcomeForm p {
+        height: 20vh;
     }
 }
 

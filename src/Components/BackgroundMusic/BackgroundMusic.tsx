@@ -6,15 +6,19 @@ import "./BackgroundMusic.css"
 function BackgroundMusic() {
     const [audio] = useState(new Audio('/GAMBA.mp3')); // Initialize with the first song
     const [musicOn, setMusicOn] = useState(false);
-    const [volume, setVolume] = useState(30); // Initial volume value
+    const [volume, setVolume] = useState(20); // Initial volume value
     const [currentSongIndex, setCurrentSongIndex] = useState(0);
     const songs = ['/GAMBA.mp3', '/radio.mp3', '/hrnec.mp3']; // List of audio sources (URLs)
+
+    // Initial volume
+    useEffect(() => {
+        audio.volume = 0.2;
+    }, [audio]);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const handleSongEnd = () => {
         playNextSong();
     }
-
 
     useEffect(() => {
         // Add event listener for when the current song ends
@@ -27,10 +31,10 @@ function BackgroundMusic() {
     }, [audio, handleSongEnd]); // Ensure effect runs when audio changes
 
     const handleBackgroundMusic = () => {
-        if (!musicOn) {
+        if (!musicOn) { // play audio
             audio.play().then();
             setMusicOn(true);
-        } else {
+        } else { // pause audio
             audio.pause();
             setMusicOn(false);
         }
@@ -66,11 +70,13 @@ function BackgroundMusic() {
 
     return (
         <div className={"background-music"}>
-            <button onClick={playPrevSong} className={"music-button"}><MdSkipPrevious /></button>
-            <button onClick={handleBackgroundMusic} className={"music-button"}>
-                {musicOn ? <MdMusicNote /> : <MdMusicOff />}
-            </button>
-            <button onClick={playNextSong} className={"music-button"}><MdSkipNext /></button>
+            <div className={"background-music-buttons"}>
+                <button onClick={playPrevSong} className={"music-button"}><MdSkipPrevious /></button>
+                <button onClick={handleBackgroundMusic} className={"music-button"}>
+                    {musicOn ? <MdMusicNote /> : <MdMusicOff />}
+                </button>
+                <button onClick={playNextSong} className={"music-button"}><MdSkipNext /></button>
+            </div>
             <VolumeChanger volume={volume} onChange={handleVolumeChange} />
         </div>
     );

@@ -54,13 +54,11 @@ function App() {
 
   return (
       <>
-        <Navbar/>
-          <BackgroundMusic />
         {/* Conditionally render either WelcomeForm or Board based on gameStarted state */}
         {gameStarted ? (
             <>
-              <Board />
-              <button onClick={handleRestartGame}>Restart Game</button>
+              <Navbar restartGame={handleRestartGame} />
+              <Board/>
             </>
         ) : (
             <WelcomeForm onStartGame={handleStartGame}/>

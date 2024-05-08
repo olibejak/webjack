@@ -1,5 +1,5 @@
 :root {
-  --table-green: #006400;
+  --table-green: #004700;
   --button-border-radius: 25%;
   --black-gradient: linear-gradient(45deg, #222 5%, #333 95%);
   --black-metalic-gradient: linear-gradient(
@@ -14,96 +14,131 @@
     );
 }
 
-input[type=range] {
-  background: none;
-  height: 24px;
-  -webkit-appearance: none;
-  margin: 10px 0;
-  width: 100%;
-}
-input[type=range]:focus {
-  outline: none;
-}
-input[type=range]::-webkit-slider-runnable-track {
-  width: 100%;
-  height: 5px;
-  cursor: pointer;
-  animate: 0.2s;
-  box-shadow: 2px 2px 3px #50555C;
-  background: #50555C;
-  border-radius: 6px;
-  border: 1px solid #000000;
-}
-input[type=range]::-webkit-slider-thumb {
-  box-shadow: 3px 3px 3px #000000;
-  border: 0px solid #000000;
-  height: 15px;
-  width: 15px;
-  border-radius: 5px;
-  background: var(--black-gradient);
-  cursor: pointer;
-  -webkit-appearance: none;
-  margin-top: -5.5px;
-}
-input[type=range]:focus::-webkit-slider-runnable-track {
-  background: #50555C;
-}
-input[type=range]::-moz-range-track {
-  width: 100%;
-  height: 5px;
-  cursor: pointer;
-  animate: 0.2s;
-  box-shadow: 2px 2px 3px #50555C;
-  background: #50555C;
-  border-radius: 6px;
-  border: 1px solid #000000;
-}
-input[type=range]::-moz-range-thumb {
-  box-shadow: 3px 3px 3px #000000;
-  border: 0px solid #000000;
-  height: 15px;
-  width: 15px;
-  border-radius: 5px;
-  background: #663E3E;
-  cursor: pointer;
-}
-input[type=range]::-ms-track {
-  width: 100%;
-  height: 5px;
-  cursor: pointer;
-  animate: 0.2s;
-  background: transparent;
-  border-color: transparent;
-  color: transparent;
-}
-input[type=range]::-ms-fill-lower {
-  background: #50555C;
-  border: 1px solid #000000;
-  border-radius: 12px;
-  box-shadow: 2px 2px 3px #50555C;
-}
-input[type=range]::-ms-fill-upper {
-  background: #50555C;
-  border: 1px solid #000000;
-  border-radius: 12px;
-  box-shadow: 2px 2px 3px #50555C;
-}
-input[type=range]::-ms-thumb {
-  margin-top: 1px;
-  box-shadow: 3px 3px 3px #000000;
-  border: 0px solid #000000;
-  height: 15px;
-  width: 15px;
-  border-radius: 5px;
-  background: #663E3E;
-  cursor: pointer;
-}
-input[type=range]:focus::-ms-fill-lower {
-  background: #50555C;
-}
-input[type=range]:focus::-ms-fill-upper {
-  background: #50555C;
-}
+/* music slider */
+  input[type=range] {
+    background: none;
+    height: 24px;
+    -webkit-appearance: none;
+    margin: 10px 0;
+    width: 100%;
+  }
+  input[type=range]:focus {
+    outline: none;
+  }
+  input[type=range]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 5px;
+    cursor: pointer;
+    animate: 0.2s;
+    box-shadow: 2px 2px 3px #50555C;
+    background: #50555C;
+    border-radius: 6px;
+    border: 1px solid #000000;
+  }
+  input[type=range]::-webkit-slider-thumb {
+    box-shadow: 3px 3px 3px #000000;
+    border: 0px solid #000000;
+    height: 15px;
+    width: 15px;
+    border-radius: 5px;
+    background: var(--black-gradient);
+    cursor: pointer;
+    -webkit-appearance: none;
+    margin-top: -5.5px;
+  }
+  input[type=range]:focus::-webkit-slider-runnable-track {
+    background: #50555C;
+  }
+  input[type=range]::-moz-range-track {
+    width: 100%;
+    height: 5px;
+    cursor: pointer;
+    animate: 0.2s;
+    box-shadow: 2px 2px 3px #50555C;
+    background: #50555C;
+    border-radius: 6px;
+    border: 1px solid #000000;
+  }
+  input[type=range]::-moz-range-thumb {
+    box-shadow: 3px 3px 3px #000000;
+    border: 0px solid #000000;
+    height: 15px;
+    width: 15px;
+    border-radius: 5px;
+    background: #663E3E;
+    cursor: pointer;
+  }
+  input[type=range]::-ms-track {
+    width: 100%;
+    height: 5px;
+    cursor: pointer;
+    animate: 0.2s;
+    background: transparent;
+    border-color: transparent;
+    color: transparent;
+  }
+  input[type=range]::-ms-fill-lower {
+    background: #50555C;
+    border: 1px solid #000000;
+    border-radius: 12px;
+    box-shadow: 2px 2px 3px #50555C;
+  }
+  input[type=range]::-ms-fill-upper {
+    background: #50555C;
+    border: 1px solid #000000;
+    border-radius: 12px;
+    box-shadow: 2px 2px 3px #50555C;
+  }
+  input[type=range]::-ms-thumb {
+    margin-top: 1px;
+    box-shadow: 3px 3px 3px #000000;
+    border: 0px solid #000000;
+    height: 15px;
+    width: 15px;
+    border-radius: 5px;
+    background: #663E3E;
+    cursor: pointer;
+  }
+  input[type=range]:focus::-ms-fill-lower {
+    background: #50555C;
+  }
+  input[type=range]:focus::-ms-fill-upper {
+    background: #50555C;
+  }
+
+/* overflow slider */
+  /* WebKit (Chrome, Safari, etc.) */
+  ::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+    box-shadow: transparent;
+
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #e0e0e0;
+    border-radius: 10px;
+    box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+  }
+
+  /*!* Firefox *!*/
+  /*.scrollable-div {*/
+  /*  scrollbar-width: thin;*/
+  /*}*/
+
+  /*.scrollable-div::-moz-scrollbar-track {*/
+  /*  background: transparent;*/
+  /*  box-shadow: transparent;*/
+  /*}*/
+
+  /*.scrollable-div::-moz-scrollbar-thumb {*/
+  /*  background: #e0e0e0;*/
+  /*  border-radius: 10px;*/
+  /*  box-shadow: inset 0 0 6px rgba(0,0,0,0.5);*/
+  /*}*/
 
 body {
   background-color: var(--table-green);
