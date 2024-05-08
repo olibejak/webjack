@@ -192,7 +192,7 @@
         width: 5em;
     }
 
-    #👤, .welcomeForm p {
+    #👤, .welcomeForm article {
         height: 20vh;
     }
 }
