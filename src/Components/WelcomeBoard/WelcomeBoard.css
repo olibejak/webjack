@@ -44,6 +44,7 @@
     overflow: scroll;
     overflow-x: hidden;
     letter-spacing: .1rem;
+    scrollbar-width: thin;
 }
 
 .welcomeForm article a {
@@ -89,17 +90,18 @@
     overflow-x: hidden;
     height: 40vh;
     gap: 0.6em;
+    scrollbar-width: thin;
 }
 
 #👤 li {
     padding: 0;
-    width: 100%;
+    width: 95%;
 }
 
     /* Player Card */
     .player-card {
         height: 6em;
-        max-width: 25em;
+        max-width: 24em;
         font-size: 1em;
         display: grid;
         grid-template-columns: 20% 80%;

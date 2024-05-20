@@ -4,11 +4,11 @@
   --black-gradient: linear-gradient(45deg, #222 5%, #333 95%);
   --black-metalic-gradient: linear-gradient(
             45deg,
-            #222 5%, /* Darker metallic color */
-            #333 10%, /* Dark metallic color */
-            #444 30%, /* Medium metallic color */
-            #555 50%, /* Lighter metallic color */
-            #444 70%, /* Medium metallic color */
+            #333 10%, /* Darker metallic color */
+            #222 20%, /* Dark metallic color */
+            #222 35%, /* Medium metallic color */
+            #333 45%, /* Lighter metallic color */
+            #222 70%, /* Medium metallic color */
             #333 80%, /* Dark metallic color */
             #222 95% /* Darker metallic color */
     );
@@ -61,11 +61,11 @@
   }
   input[type=range]::-moz-range-thumb {
     box-shadow: 3px 3px 3px #000000;
-    border: 0px solid #000000;
+    border: 2px solid #50555C;
     height: 15px;
     width: 15px;
     border-radius: 5px;
-    background: #663E3E;
+    background: var(--black-gradient);
     cursor: pointer;
   }
   input[type=range]::-ms-track {
@@ -92,11 +92,11 @@
   input[type=range]::-ms-thumb {
     margin-top: 1px;
     box-shadow: 3px 3px 3px #000000;
-    border: 0px solid #000000;
+    border: 2px solid #50555C;
     height: 15px;
     width: 15px;
     border-radius: 5px;
-    background: #663E3E;
+    background: var(--black-gradient);
     cursor: pointer;
   }
   input[type=range]:focus::-ms-fill-lower {
@@ -114,8 +114,6 @@
 
   ::-webkit-scrollbar-track {
     background: transparent;
-    box-shadow: transparent;
-
   }
 
   ::-webkit-scrollbar-thumb {

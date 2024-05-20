@@ -1,5 +1,5 @@
 import "./Navbar.css"
-import BackgroundMusic from "../BackgroundMusic/BackgroundMusic";
+import BackgroundMusic from "./BackgroundMusic/BackgroundMusic";
 import React from "react";
 
 interface NavbarProps {

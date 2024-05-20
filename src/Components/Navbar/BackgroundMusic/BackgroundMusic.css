@@ -6,24 +6,23 @@
 
 .music-button {
     display: flex;
-    font-size: 20px;
-    padding: 10px;
+    font-size: 1.3em;
+    padding: 7px;
     font-weight: 600;
-    border: none;
     outline: none;
     color: #fff;
-    background: linear-gradient(45deg, #222 5%, #333 95%);
+    background: transparent;
     text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
     border-radius: var(--button-border-radius);
-    /*border-radius: 50% / 50% ;*/
+    border: 1px solid white;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
     cursor: pointer;
     transition: all 0.3s ease-in-out;
 }
 
 .music-button:hover {
-    /*background: linear-gradient(45deg, #333 5%, #222 95%);*/
-    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.7);
+    color: black;
+    background: white;
 }
 
 .background-music {
@@ -31,7 +30,6 @@
     flex-direction: row;
     align-items: center;
     justify-content: right;
-    /*border: 2px solid #ccc;*/
 }
 
 .background-music > * {
@@ -51,7 +49,6 @@
 }
 
 .music-button:hover {
-    /*background: linear-gradient(45deg, #333 5%, #222 95%);*/
     box-shadow: 0 5px 12px rgba(0, 0, 0, 0.7);
 }
 
@@ -60,7 +57,6 @@
     flex-direction: row;
     align-items: center;
     justify-content: right;
-    /*border: 2px solid #ccc;*/
 }
 
 .background-music > * {
@@ -73,12 +69,19 @@
     align-items: center;
 }
 
-@media (max-width: 1035px) {
+@media (max-width: 1220px) {
     .background-music {
         flex-direction: column;
+        padding-top: 1em;
     }
 
     .volume-changer {
         width: 10em
+    }
+}
+
+@media (max-width: 1035px) {
+    .background-music {
+        padding-top: 0;
     }
 }

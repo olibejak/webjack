@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import WelcomeForm from "./Components/WelcomeBoard/WelcomeBoard";
 import Board from "./Components/Board/Board";
-import BackgroundMusic from "./Components/BackgroundMusic/BackgroundMusic";
+import BackgroundMusic from "./Components/Navbar/BackgroundMusic/BackgroundMusic";
 import Navbar from "./Components/Navbar/Navbar";
 import {v4 as uuidv4} from "uuid";
 
