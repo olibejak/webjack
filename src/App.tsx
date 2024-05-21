@@ -2,41 +2,45 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import WelcomeForm from "./Components/WelcomeBoard/WelcomeBoard";
 import Board from "./Components/Board/Board";
-import BackgroundMusic from "./Components/BackgroundMusic/BackgroundMusic";
 import Navbar from "./Components/Navbar/Navbar";
 import {v4 as uuidv4} from "uuid";
+import {Game, Dealer} from "./Game/Game"
 
 function App() {
 
   const [gameStarted, setGameStarted] = useState(false);
+  const [game, setGame] = useState<Game>();
+  const [dealer, setDealer] = useState<Dealer>();
 
   /**
    * Deleting playerData and initializing with empty player on ctr + F5
    */
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      // window.addEventListener('keydown', handleKeyDown);
       if (event.ctrlKey && event.key === 'F5') {
-        localStorage.getItem('playersData');
-        const defaultPlayer = JSON.stringify([{id : uuidv4(), name: '', chipBalance: 100 }]);
+        setGameStarted(false);
+        const defaultPlayer = JSON.stringify([{ id: uuidv4(), name: '', chipBalance: 100 }]);
         localStorage.setItem('playersData', defaultPlayer);
+        console.log('Game restarted:', gameStarted);
+        window.removeEventListener('keydown', handleKeyDown);
       }
     };
+
     window.addEventListener('keydown', handleKeyDown);
-    return () => {
-      window.removeEventListener('keydown', handleKeyDown);
-    };
-  }, []);
+  }, [gameStarted]);
 
   // Define a function to handle game start
   const handleStartGame = () => {
     setGameStarted(true);
+    setGame(Game.getInstance());
+    setDealer(Dealer.getInstance());
   };
 
   // Define a function to handle game restart
   const handleRestartGame = () => {
     setGameStarted(false);
     localStorage.removeItem('gameStarted'); // Clear game state from localStorage
+    dealer?.resetHand();
   };
 
   // Load game state from localStorage on component mount
@@ -57,7 +61,7 @@ function App() {
         {/* Conditionally render either WelcomeForm or Board based on gameStarted state */}
         {gameStarted ? (
             <>
-              <Navbar restartGame={handleRestartGame} />
+              <Navbar restartGame={() => handleRestartGame()} />
               <Board/>
             </>
         ) : (
@@ -65,7 +69,6 @@ function App() {
         )}
       </>
   );
-  // return <WelcomeBoardPlayerCard name={"Jakub"} chipBalance={100}></WelcomeBoardPlayerCard>;
 }
 
 export default App;

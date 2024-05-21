@@ -1,13 +1,16 @@
 import React from 'react';
 import { IoPersonRemoveSharp  } from 'react-icons/io5';
-import {Player} from "../Types"
+import {PlayerJson} from "../../Game/Types"
 
-function WelcomeBoardPlayerCard({index, player, removePlayer, updatePlayer,}: {
+interface WelcomeBoardPlayerCardProps {
     index: number;
-    player: Player;
-    removePlayer: (player: Player) => void;
-    updatePlayer: (updatedPlayer: Player) => void;
-}) {
+    player: PlayerJson;
+    removePlayer: (player: PlayerJson) => void;
+    updatePlayer: (updatedPlayer: PlayerJson) => void;
+}
+
+const WelcomeBoardPlayerCard: React.FC<WelcomeBoardPlayerCardProps>
+    = ({index, player, removePlayer, updatePlayer,}) => {
     const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const updatedPlayer = { ...player, name: e.target.value };
         updatePlayer(updatedPlayer);

@@ -1,7 +1,7 @@
 import {useState} from "react";
 import "./WelcomeBoard.css";
 import WelcomeBoardPlayerContainer from "./WelcomeBoardPlayerContainer";
-import {Player} from "../Types";
+import {PlayerJson} from "../../Game/Types";
 
 function WelcomeBoard({onStartGame}: {onStartGame: any}) {
 
@@ -10,7 +10,7 @@ function WelcomeBoard({onStartGame}: {onStartGame: any}) {
     const handleStartGame = () => {
         const playerData = localStorage.getItem("playersData")
         const players = (playerData ? JSON.parse(playerData) : []);
-        if (players.length > 0 && players.every((player: Player) => player.name.trim() !== '' && player.chipBalance !== null))
+        if (players.length > 0 && players.every((player: PlayerJson) => player.name.trim() !== '' && player.chipBalance !== null))
             onStartGame(numOfPlayers);
         else
             alert("Please fill all players' data");
