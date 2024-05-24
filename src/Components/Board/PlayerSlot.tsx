@@ -1,32 +1,27 @@
 import React, {useEffect, useState} from 'react';
-import {Card, PlayerJson} from '../../Game/Types';
+import {Card} from '../../Game/Types';
 import './Board.css';
-import {Player} from "../../Game/Game";
 
 interface PlayerSlotProps {
-    player: Player;
+    name: string;
+    chipBalance: number;
+    playerHand: Card[];
     isActive: boolean;
-    // onClick: () => void;
+    isStanding: boolean
+    handValueToString: string;
 }
 
-const PlayerSlot: React.FC<PlayerSlotProps> = ({ player, isActive}) => {
-    const [hand, setHand] = useState<Card[]>(player.getHand());
+const PlayerSlot: React.FC<PlayerSlotProps> =
+    ({name, chipBalance, playerHand, isActive, isStanding, handValueToString}) => {
+    const [hand, setHand] = useState<Card[]>(playerHand);
     const [newCard, setNewCard] = useState<Card | null>(null);
-    // const [isPlaying, setIsPlaying] = useState(false);
-    const [isStanding, setIsStanding] = useState(false);
 
+    // Update newCard for animation
     useEffect(() => {
-        setHand(player.getHand());
-        setNewCard(player.getHand().slice(-1)[0])
-    }, [player.getHand()]);
+        setHand(playerHand);
+        setNewCard(playerHand.slice(-1)[0])
+    }, [playerHand]);
 
-    useEffect(() => {
-        setIsStanding(player.getIsStanding());
-    }, [player.getIsStanding]);
-
-    // useEffect(() => {
-    //     setIsPlaying(player.getIsPlaying());
-    // }, [player.getIsPlaying]);
 
     useEffect(() => {
         if (newCard) {
@@ -36,7 +31,7 @@ const PlayerSlot: React.FC<PlayerSlotProps> = ({ player, isActive}) => {
 
     return (
         <div className="player-slot">
-            <div className={`card-container ${isActive ? 'playing' : ''}`}>
+            <div className={`card-container ${isActive && 'playing'} ${isStanding && 'standing'}`}>
                 {hand.map((card, index) => (
                     <img
                         key={index}
@@ -48,9 +43,10 @@ const PlayerSlot: React.FC<PlayerSlotProps> = ({ player, isActive}) => {
                 ))}
             </div>
             <ul className="player-info" id="playing">
-                <li>{player.getName()}</li>
+                <li>{handValueToString}</li>
+                <li>{name}</li>
                 <li>
-                    {player.getChipBalance()} {player.getChipBalance() === 1 ? ' chip' : ' chips'}
+                    {chipBalance} {chipBalance === 1 ? ' chip' : ' chips'}
                 </li>
             </ul>
         </div>

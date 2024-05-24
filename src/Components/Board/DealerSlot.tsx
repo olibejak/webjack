@@ -3,10 +3,20 @@ import React, { useEffect, useState } from "react";
 import { Card } from "../../Game/Types"; // Adjust the import according to your file structure
 import './Board.css';
 
-export default function DealerSlot() {
+interface DealerSlotProps {
+    handValueToString: string;
+    dealerHand: Card[];
+}
+
+const DealerSlot: React.FC<DealerSlotProps> = ({dealerHand, handValueToString}) => {
     const dealer = Dealer.getInstance();
-    const [hand, setHand] = useState<Card[]>(dealer.getHand());
+    const [hand, setHand] = useState<Card[]>(dealerHand);
     const [newCard, setNewCard] = useState<Card | null>(null);
+
+    useEffect(() => {
+        setHand(dealerHand);
+        setNewCard(dealerHand.slice(-1)[0])
+    }, [dealerHand]);
 
     const drawCard = async () => {
         await dealer.drawCard();
@@ -24,7 +34,7 @@ export default function DealerSlot() {
         <div className="player-slot">
             <ul className="player-info">
                 <li>Dealer</li>
-                <li></li>
+                <li>{handValueToString}</li>
             </ul>
             <div className="card-container">
                 {hand.map((card, index) => (
@@ -37,8 +47,8 @@ export default function DealerSlot() {
                     />
                 ))}
             </div>
-            <button onClick={drawCard}>Draw Card</button>
-            <div></div>
         </div>
     );
 }
+
+export default DealerSlot;

@@ -73,9 +73,10 @@
     align-items: center;
 }
 
-@media (max-width: 1035px) {
+@media (max-width: 1200px) {
     .background-music {
         flex-direction: column;
+        margin-top: 0.8em;
     }
 
     .volume-changer {

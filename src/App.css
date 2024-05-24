@@ -114,7 +114,7 @@
 
   ::-webkit-scrollbar-track {
     background: transparent;
-    box-shadow: transparent;
+    box-shadow: none;
 
   }
 
@@ -168,12 +168,14 @@ body {
 }
 
 .playing {
+  transition-duration: 1.5s;
   -webkit-box-shadow:0px 0px 20px 11px rgba(0,255,234,1);
   -moz-box-shadow: 0px 0px 20px 11px rgba(0,255,234,1);
   box-shadow: 0px 0px 20px 11px rgba(0,255,234,1);
 }
 
 .standing {
+  transition-duration: 1.5s;
   -webkit-box-shadow:0px 0px 20px 11px rgba(255,0,0,0.59);
   -moz-box-shadow: 0px 0px 20px 11px rgba(255,0,0,0.59);
   box-shadow: 0px 0px 20px 11px rgba(255,0,0,0.59);

@@ -10,7 +10,6 @@ function App() {
 
   const [gameStarted, setGameStarted] = useState(false);
   const [game, setGame] = useState<Game>();
-  const [dealer, setDealer] = useState<Dealer>();
 
   /**
    * Deleting playerData and initializing with empty player on ctr + F5
@@ -32,15 +31,12 @@ function App() {
   // Define a function to handle game start
   const handleStartGame = () => {
     setGameStarted(true);
-    setGame(Game.getInstance());
-    setDealer(Dealer.getInstance());
   };
 
   // Define a function to handle game restart
   const handleRestartGame = () => {
     setGameStarted(false);
     localStorage.removeItem('gameStarted'); // Clear game state from localStorage
-    dealer?.resetHand();
   };
 
   // Load game state from localStorage on component mount

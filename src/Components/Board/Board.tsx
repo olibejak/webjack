@@ -3,22 +3,23 @@ import PlayerSlot from './PlayerSlot';
 import DealerSlot from './DealerSlot';
 import DeckSlot from './DeckSlot';
 import './Board.css';
-import {Player} from "../../Game/Game";
+import {Dealer, Game, Player} from "../../Game/Game";
 import {PlayerJson} from "../../Game/Types";
 
 function Board() {
     const [players, setPlayers] = useState<Player[]>([]);
     const [activePlayerIndex, setActivePlayerIndex] = useState(0);
+    const [dealer, setDealer] = useState<Dealer>(Dealer.getInstance);
+    const [game, setGame] = useState<Game>(Game.getInstance);
+    const [locked, setLocked] = useState(false);
     const playerSlotRef = useRef<HTMLDivElement>(null);
     let standingCount = 0;
 
     // Load players from local storage on component mount
     useEffect(() => {
-        const playersData = localStorage.getItem('playersData');
-        const playersJson = playersData ? JSON.parse(playersData) : [];
-        const playerInstances = playersJson.map((playerJson: PlayerJson) => new Player(playerJson));
-        playerInstances[0].setIsPlaying(true);
-        setPlayers(playerInstances);
+        dealer || setDealer(Dealer.getInstance);
+        // game || setGame(Game.getInstance);
+        // setPlayers(game.getPlayers());
     }, []);
 
     // useEffect(() => {
@@ -30,22 +31,26 @@ function Board() {
     // }, [activePlayerIndex, players]);
 
     const handleHit = async () => {
+        setLocked(true)
         const updatedPlayers = [...players];
         await updatedPlayers[activePlayerIndex].drawCard();
         setPlayers(updatedPlayers);
         setActivePlayer();
+        setLocked(false)
     };
 
     const handleStand = () => {
+        setLocked(true)
         const updatedPlayers = [...players];
         updatedPlayers[activePlayerIndex].setIsStanding(true);
         updatedPlayers[activePlayerIndex].setIsPlaying(false);
 
         let nextPlayerIndex = (activePlayerIndex + 1) % players.length;
-        while (updatedPlayers[nextPlayerIndex].getIsStanding()) {
+        for (let i = 0; i < players.length - 1; ++i) {
+            if (!updatedPlayers[nextPlayerIndex].getIsStanding())
+                break;
             nextPlayerIndex = (nextPlayerIndex + 1) % players.length;
         }
-
         if (nextPlayerIndex === activePlayerIndex) {
             handleEnd();
         } else {
@@ -54,6 +59,7 @@ function Board() {
         }
 
         setPlayers(updatedPlayers);
+        setLocked(false)
     };
 
     const setActivePlayer = () => {
@@ -68,37 +74,52 @@ function Board() {
         handleEnd();
     }
 
-    const handleEnd = () => {
-        console.log("reset");
+    const handleEnd = async () => {
         const updatedPlayers = [...players];
-        players[activePlayerIndex].resetHand(); // Add the card to the active player
+        for (let i = 0; i < players.length; ++i)
+            players[i].resetHand(); // Add the card to the active player
         setPlayers(updatedPlayers);
         players[activePlayerIndex].setIsStanding(false);
+        await dealer.executeEnd();
     }
 
     return (
         <div className="board">
             <div className="dealer-container">
-                <DealerSlot />
-                <DeckSlot />
+                <DealerSlot
+                    handValueToString={dealer.getHandValueToString()}
+                    dealerHand={dealer.getHand()}
+                />
+                <DeckSlot/>
+            </div>
+            {locked && (
+                <div className="overlay active">
+                    <div className="spinner"></div>
+                </div>
+            )}
+            <div className={"action-button-container"}
+                style={locked ? {opacity: "0"} : {}}>
+                <button id="hit" onClick={handleHit} disabled={locked}
+                        className={locked ? 'disabled-button' : ''}>
+                    HIT
+                </button>
+                <button id="stand" onClick={handleStand} disabled={locked}
+                    className={locked ? 'disabled-button' : ''} >
+                    STAND
+                </button>
             </div>
             <div className="player-slot-container">
                 {players.map((player, index) => (
                     <PlayerSlot
                         key={index}
-                        player={player}
+                        name={player.getName()}
+                        chipBalance={player.getChipBalance()}
+                        playerHand={player.getHand()}
                         isActive={index === activePlayerIndex}
-                        // onClick={() => setActivePlayerIndex(index)}
+                        isStanding={player.getIsStanding()}
+                        handValueToString={player.getHandValueToString()}
                     />
                 ))}
-            </div>
-            <div className="action-button-container">
-                <button id="hit" onClick={handleHit}>
-                    HIT
-                </button>
-                <button id="stand" onClick={handleStand}>
-                    STAND
-                </button>
             </div>
         </div>
     );

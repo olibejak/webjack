@@ -4,7 +4,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 4em;
+    gap: 2em;
 }
 
 .player-slot-container {
@@ -37,6 +37,7 @@
 }
 
 .card-container {
+    transition-duration: 1s;
     display: flex;
     align-items: flex-end;
     justify-content: flex-start;
@@ -91,7 +92,6 @@
 }
 
 .action-button-container {
-    position: fixed;
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
@@ -115,6 +115,46 @@
 #hit:hover, #stand:hover {
     background: #50555C;
     /*color: var(--black-metalic-gradient);*/
+}
+
+.disabled-button {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.spinner {
+    border: 4px solid rgba(0, 0, 0, 0.1);
+    border-left-color: #4caf50;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    animation: spin 1s linear infinite;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+    display: none; /* Initially hidden */
+}
+
+.overlay.active {
+    display: flex;
 }
 
 @media (max-width: 440px) {
