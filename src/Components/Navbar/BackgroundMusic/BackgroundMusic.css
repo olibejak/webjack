@@ -1,30 +1,3 @@
-.background-music-buttons{
-    display: flex;
-    flex-direction: row;
-    gap: 5px;
-}
-
-.music-button {
-    display: flex;
-    font-size: 1.3em;
-    padding: 7px;
-    font-weight: 600;
-    outline: none;
-    color: #fff;
-    background: transparent;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-    border-radius: var(--button-border-radius);
-    border: 1px solid white;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
-    cursor: pointer;
-    transition: all 0.3s ease-in-out;
-}
-
-.music-button:hover {
-    color: black;
-    background: white;
-}
-
 .background-music {
     display: flex;
     flex-direction: row;
@@ -36,52 +9,53 @@
     margin: 0.1em;
 }
 
-.volume-changer {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
+/* Buttons */
+    .background-music-buttons{
+        display: flex;
+        flex-direction: row;
+        gap: 5px;
+    }
+
+    .music-button {
+        display: flex;
+        font-size: 20px;
+        padding: 10px;
+        font-weight: 600;
+        outline: none;
+        color: #fff;
+        background: linear-gradient(45deg, #222 5%, #333 95%);
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        border-radius: var(--button-border-radius);
+        border: 1px solid #ccc;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+    }
+
+    .music-button:hover {
+        box-shadow: 0 5px 12px rgba(0, 0, 0, 0.7);
+    }
+
+/* Volume changer */
+    .volume-changer {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
 }
 
-.volume-changer svg {
-    margin: 0.2em;
-    font-size: 2em;
-    color: #fff;
-}
+    .volume-changer svg {
+        margin: 0.2em;
+        font-size: 2em;
+        color: #fff;
+    }
 
-.music-button:hover {
-    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.7);
-}
-
-.background-music {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: right;
-}
-
-.background-music > * {
-    margin: 0.1em;
-}
-
-.volume-changer {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-}
-
-@media (max-width: 1220px) {
+@media (max-width: 1200px) {
     .background-music {
         flex-direction: column;
-        padding-top: 1em;
+        margin-top: 0.8em;
     }
 
     .volume-changer {
         width: 10em
-    }
-}
-
-@media (max-width: 1035px) {
-    .background-music {
-        padding-top: 0;
     }
 }

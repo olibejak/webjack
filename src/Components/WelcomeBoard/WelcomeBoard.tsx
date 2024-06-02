@@ -1,7 +1,7 @@
 import {useState} from "react";
 import "./WelcomeBoard.css";
 import WelcomeBoardPlayerContainer from "./WelcomeBoardPlayerContainer";
-import {Player} from "../Types";
+import {PlayerJson} from "../../Game/Types";
 
 function WelcomeBoard({onStartGame}: {onStartGame: any}) {
 
@@ -10,7 +10,7 @@ function WelcomeBoard({onStartGame}: {onStartGame: any}) {
     const handleStartGame = () => {
         const playerData = localStorage.getItem("playersData")
         const players = (playerData ? JSON.parse(playerData) : []);
-        if (players.length > 0 && players.every((player: Player) => player.name.trim() !== '' && player.chipBalance !== null))
+        if (players.length > 0 && players.every((player: PlayerJson) => player.name.trim() !== '' && player.chipBalance !== null))
             onStartGame(numOfPlayers);
         else
             alert("Please fill all players' data");
@@ -24,16 +24,23 @@ function WelcomeBoard({onStartGame}: {onStartGame: any}) {
                 <h2>About:</h2>
                 <article>
                     <p>
-                         About Blackjack: <a href={"https://en.wikipedia.org/wiki/Blackjack"}
-                                             target="_blank"
-                                             rel="noreferrer noopener">
-                                                Wikipedia</a>
+                        About Blackjack: <a href={"https://en.wikipedia.org/wiki/Blackjack"}
+                                            target="_blank"
+                                            rel="noreferrer noopener">
+                        Wikipedia</a>
+                    </p>
+                    <p>
+                        How to play:
+                        <ul>
+                            <li>The blue highlighted player has turn</li>
+                            <li></li>
+                        </ul>
                     </p>
                     <p>
                         API used: <a href={"https://www.deckofcardsapi.com"}
                                      target="_blank"
                                      rel="noreferrer noopener">
-                                        Deck of Cards</a>
+                        Deck of Cards</a>
                     </p>
                     <p>Music used:</p>
                     <ul>
@@ -41,19 +48,19 @@ function WelcomeBoard({onStartGame}: {onStartGame: any}) {
                             <a href={"https://www.youtube.com/watch?v=46MiO8jWR3Q&ab_channel=RobDiesALot"}
                                target="_blank"
                                rel="noreferrer noopener">
-                                  Rob Dies A Lot - GAMBA</a>
+                                Rob Dies A Lot - GAMBA</a>
                         </li>
                         <li>
                             <a href={"https://g.co/kgs/hjNj5rG"}
                                target="_blank"
                                rel="noreferrer noopener">
-                                  Portal - Radio Music</a>
+                                Portal - Radio Music</a>
                         </li>
                         <li>
                             <a href={"https://www.youtube.com/watch?v=V2LpXOKWjus&ab_channel=buricin"}
                                target="_blank"
                                rel="noreferrer noopener">
-                                  Milan Buričin - Sólo pro prádelní hrnec</a>
+                                Milan Buričin - Sólo pro prádelní hrnec</a>
                         </li>
                     </ul>
                 </article>
