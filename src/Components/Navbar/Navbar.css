@@ -1,8 +1,7 @@
 nav {
     display: flex;
     position: absolute;
-    background: #000000;
-    /*background: #525252;*/
+    background: var(--black-metalic-gradient);
     height: 5em;
     width: 100%;
     top: 0;
@@ -12,26 +11,30 @@ nav {
     box-sizing: border-box;
 }
 
-nav button, .restart-button, .hamburger-icon {
+nav button, .hamburger-icon {
     justify-self: left;
     order: -1;
     place-self: flex-start;
     align-self: center;
     display: flex;
-    font-size: 20px;
-    padding: 10px;
+    font-size: 1em;
+    padding: 0.8em;
     font-weight: 600;
-    border: none;
     outline: none;
     color: #fff;
-    background: linear-gradient(45deg, #222 5%, #333 95%);
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    background: transparent;
     border-radius: 12px;
-    /*border-radius: 50% / 50% ;*/
+    border: 1px solid white;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
     cursor: pointer;
     transition: all 0.3s ease-in-out;
 }
+
+nav button:hover, .hamburger-icon:hover {
+    color: black;
+    background: #fff;
+}
+
 
 nav h1 {
     position: absolute;
@@ -39,6 +42,7 @@ nav h1 {
     transform: translateX(-50%);
     text-transform: capitalize;
     color: #fff;
+    text-shadow: -2px -2px 2px rgba(0, 0, 0, 0.7);
     text-align: center;
     font-size: 3em;
     font-family: Times New Roman, serif;
@@ -46,6 +50,8 @@ nav h1 {
 
 .dropdown-menu, .hamburger-icon {
     display: none;
+    transition: transform 0.5s ease-out;
+    top: 0;
 }
 
 .restart-button {
@@ -53,28 +59,42 @@ nav h1 {
 }
 
 @media (max-width: 1035px) {
-    nav button, nav .background-music{
+    nav {
+        display: flex;
+    }
+
+    nav > .background-music {
         display: none;
     }
 
+    nav h1 {
+        font-size: 2em;
+    }
+
     .hamburger-icon {
-        display: block;
+        display: flex;
+        align-items: center;
+        justify-content: center;
         margin-left: auto;
+        padding: 0.8em;
+        aspect-ratio: 1/1;
     }
 
     .menu-expanded {
+        transform: translateX(0);
         display: flex;
         flex-direction: column;
         gap: 15px;
-        z-index: 2;
-        position: absolute;
+        /* card from api has z-index 999 */
+        z-index: 1000;
+        position: fixed;
         top: 5em;
         margin-left: auto;
         right: 0; /* Align the menu to the right */
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
-        padding: 10px;
+        padding: 1.5em;
         width: 150px;
         border-radius: 4px;
-        background: rgba(0, 0, 0, .5);
+        background: rgba(0, 0, 0, 0.9);
     }
 }

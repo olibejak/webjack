@@ -1,19 +1,19 @@
 import React, { useEffect, useState } from 'react';
 import WelcomeBoardPlayerCard from './WelcomeBoardPlayerCard';
 import { IoPersonAddSharp } from "react-icons/io5";
-import {Player} from "../Types"
+import {PlayerJson} from "../../Game/Types"
 import { v4 as uuidv4 } from 'uuid';
 
 function WelcomeBoardPlayerContainer() {
-    const newPlayerDefault: Player = { id: uuidv4(), name: '', chipBalance: 100 };
+    const newPlayerDefault: PlayerJson = { id: uuidv4(), name: '', chipBalance: 100 };
     const playersDataString = localStorage.getItem('playersData');
-    const [players, setPlayers] = useState<Player[]>(playersDataString ? JSON.parse(playersDataString) : []);
+    const [players, setPlayers] = useState<PlayerJson[]>(playersDataString ? JSON.parse(playersDataString) : []);
 
     const addPlayer = () => {
         setPlayers(prevPlayers => [...prevPlayers, newPlayerDefault]);
     };
 
-    const removePlayer = (playerToRemove: Player) => {
+    const removePlayer = (playerToRemove: PlayerJson) => {
         const updatedPlayers = players.filter(player => player !== playerToRemove);
         if (updatedPlayers.length === 0) {
             updatedPlayers.push(newPlayerDefault);
@@ -21,7 +21,7 @@ function WelcomeBoardPlayerContainer() {
         setPlayers(updatedPlayers);
     };
 
-    const updatePlayer = (updatedPlayer: Player) => {
+    const updatePlayer = (updatedPlayer: PlayerJson) => {
         const updatedPlayers = players.map(player =>
             player.id === updatedPlayer.id ? updatedPlayer : player
         );
