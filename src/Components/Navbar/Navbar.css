@@ -11,7 +11,7 @@ nav {
     box-sizing: border-box;
 }
 
-nav button, .restart-button, .hamburger-icon {
+nav button, .hamburger-icon {
     justify-self: left;
     order: -1;
     place-self: flex-start;
@@ -30,7 +30,7 @@ nav button, .restart-button, .hamburger-icon {
     transition: all 0.3s ease-in-out;
 }
 
-nav button:hover, .restart-button:hover, .hamburger-icon:hover {
+nav button:hover, .hamburger-icon:hover {
     color: black;
     background: #fff;
 }
@@ -59,7 +59,11 @@ nav h1 {
 }
 
 @media (max-width: 1035px) {
-    nav button, nav .background-music{
+    nav {
+        display: flex;
+    }
+
+    nav > .background-music {
         display: none;
     }
 

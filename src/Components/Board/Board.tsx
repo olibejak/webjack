@@ -1,68 +1,63 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import PlayerSlot from './PlayerSlot';
 import DealerSlot from './DealerSlot';
 import DeckSlot from './DeckSlot';
 import './Board.css';
-import {Dealer, Game, Player} from "../../Game/Game";
-import {PlayerJson} from "../../Game/Types";
+import {Game} from "../../Game/Game";
+import {Dealer} from "../../Game/Dealer";
+import {Player} from "../../Game/Player";
 
-function Board() {
+interface BoardProps {
+    dealer: Dealer;
+    game: Game;
+    restartGame?: () => void
+}
+
+
+const Board: React.FC<BoardProps> = ({dealer, game, restartGame}) => {
     const [players, setPlayers] = useState<Player[]>([]);
-    const [activePlayerIndex, setActivePlayerIndex] = useState(0);
-    const [dealer, setDealer] = useState<Dealer>(Dealer.getInstance);
-    const [game, setGame] = useState<Game>(Game.getInstance);
-    const [locked, setLocked] = useState(false);
-    const playerSlotRef = useRef<HTMLDivElement>(null);
-    let standingCount = 0;
+    const [activePlayerIndex, setActivePlayerIndex] = useState(-1);
+    const [loading, setLoading] = useState<boolean>(false); // loading indicator
+    const [locked, setLocked] = useState(false); // locks action buttons
+    const [preGame, setPreGame] = useState<boolean>(); // Shows bets
 
-    // Load players from local storage on component mount
+    // Load players from local storage and reset dealer
     useEffect(() => {
-        dealer || setDealer(Dealer.getInstance);
-        // game || setGame(Game.getInstance);
-        // setPlayers(game.getPlayers());
-    }, []);
+        setPlayers(game.getPlayers());
+        dealer.reset();
+        setPreGame(true);
+    }, [dealer, game]);
 
-    // useEffect(() => {
-    //     // Scroll to active player when it changes
-    //     if (playerSlotRef.current && playerSlotRef.current.childNodes[activePlayerIndex]) {
-    //         const activePlayerElement = playerSlotRef.current.childNodes[activePlayerIndex] as HTMLElement;
-    //         activePlayerElement.scrollIntoView({ behavior: 'smooth', inline: 'center' });
-    //     }
-    // }, [activePlayerIndex, players]);
+    const handleStart = async () => {
+        setLocked(true);
+        // setPlayers(game.getPlayers());
+        setLoading(true);
+        await game.startGame(() => setLoading(false));
+        setPreGame(false);
+        setActivePlayerIndex(-1);
+        await setActivePlayer();
+        setLocked(false);
+    }
 
     const handleHit = async () => {
         setLocked(true)
-        const updatedPlayers = [...players];
-        await updatedPlayers[activePlayerIndex].drawCard();
-        setPlayers(updatedPlayers);
-        setActivePlayer();
+        setLoading(true);
+        await players[activePlayerIndex].drawCard();
+        setLoading(false);
+        await setActivePlayer();
         setLocked(false)
     };
 
-    const handleStand = () => {
+    const handleStand = async () => {
         setLocked(true)
-        const updatedPlayers = [...players];
-        updatedPlayers[activePlayerIndex].setIsStanding(true);
-        updatedPlayers[activePlayerIndex].setIsPlaying(false);
-
-        let nextPlayerIndex = (activePlayerIndex + 1) % players.length;
-        for (let i = 0; i < players.length - 1; ++i) {
-            if (!updatedPlayers[nextPlayerIndex].getIsStanding())
-                break;
-            nextPlayerIndex = (nextPlayerIndex + 1) % players.length;
-        }
-        if (nextPlayerIndex === activePlayerIndex) {
-            handleEnd();
-        } else {
-            updatedPlayers[nextPlayerIndex].setIsPlaying(true);
-            setActivePlayerIndex(nextPlayerIndex);
-        }
-
-        setPlayers(updatedPlayers);
+        players[activePlayerIndex].setIsStanding(true);
+        await setActivePlayer();
         setLocked(false)
     };
 
-    const setActivePlayer = () => {
+    // Tries to find active player
+    // If every player stands, ends the game
+    const setActivePlayer = async () => {
         let nextPlayerIndex = activePlayerIndex;
         for (let i = 0; i < players.length; i++) {
             nextPlayerIndex = (nextPlayerIndex + 1) % players.length;
@@ -71,58 +66,63 @@ function Board() {
                 return;
             }
         }
-        handleEnd();
+        await handleEnd();
     }
 
     const handleEnd = async () => {
-        const updatedPlayers = [...players];
-        for (let i = 0; i < players.length; ++i)
-            players[i].resetHand(); // Add the card to the active player
-        setPlayers(updatedPlayers);
-        players[activePlayerIndex].setIsStanding(false);
-        await dealer.executeEnd();
+        await game.endGame();
+        setPreGame(true);
     }
 
     return (
         <div className="board">
             <div className="dealer-container">
-                <DealerSlot
-                    handValueToString={dealer.getHandValueToString()}
-                    dealerHand={dealer.getHand()}
-                />
-                <DeckSlot/>
+                <DealerSlot />
+                <DeckSlot />
             </div>
-            {locked && (
+            {loading && (
                 <div className="overlay active">
                     <div className="spinner"></div>
                 </div>
             )}
             <div className={"action-button-container"}
-                style={locked ? {opacity: "0"} : {}}>
-                <button id="hit" onClick={handleHit} disabled={locked}
-                        className={locked ? 'disabled-button' : ''}>
-                    HIT
-                </button>
-                <button id="stand" onClick={handleStand} disabled={locked}
-                    className={locked ? 'disabled-button' : ''} >
-                    STAND
-                </button>
+                 style={locked ? {opacity: "0"} : {}}>
+                {preGame ?
+                    <>
+                        <button id={"start"} onClick={handleStart} disabled={!preGame || locked}
+                                className={locked ? 'disabled-button' : ''}>
+                            PLAY
+                        </button>
+                        <button id={"go-back"} onClick={restartGame} disabled={!preGame || locked}
+                                className={locked ? 'disabled-button' : ''}>
+                            BACK
+                        </button>
+                    </>
+                    :
+                    <>
+                        <button id="hit" onClick={handleHit} disabled={locked}
+                                className={locked ? 'disabled-button' : ''}>
+                            HIT
+                        </button>
+                        <button id="stand" onClick={handleStand} disabled={locked}
+                                className={locked ? 'disabled-button' : ''}>
+                            STAND
+                        </button>
+                    </>
+                }
             </div>
             <div className="player-slot-container">
                 {players.map((player, index) => (
                     <PlayerSlot
                         key={index}
-                        name={player.getName()}
-                        chipBalance={player.getChipBalance()}
-                        playerHand={player.getHand()}
+                        player={player}
                         isActive={index === activePlayerIndex}
-                        isStanding={player.getIsStanding()}
-                        handValueToString={player.getHandValueToString()}
+                        hit={handleHit}
                     />
                 ))}
             </div>
         </div>
-    );
+    )
 }
 
 export default Board;

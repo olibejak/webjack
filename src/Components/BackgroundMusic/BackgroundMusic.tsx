@@ -30,6 +30,7 @@ function BackgroundMusic() {
         };
     }, [audio, handleSongEnd]); // Ensure effect runs when audio changes
 
+    // Play / Pause
     const handleBackgroundMusic = () => {
         if (!musicOn) { // play audio
             audio.play().then();

@@ -1,3 +1,4 @@
+// Local storage players data type
 export type PlayerJson = {
     id: string;
     name: string;

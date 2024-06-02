@@ -1,218 +1,129 @@
-import {Card, PlayerJson} from "./Types";
-
-export class AbstractPlayer {
-
-    protected hand: Card[];
-    protected game: Game
-    protected handValue: number;
-    protected handValueToString: string;
-
-    protected constructor() {
-        this.hand = [];
-        this.game = Game.getInstance()
-        this.handValue = 0;
-        this.handValueToString = ""
-    }
-
-    countHand() {
-        let handValue = 0;
-        let acesInHand = 0;
-        let twoOptions = false;
-
-        for (let card of this.hand) {
-            if (card.value === "ACE")
-                ++acesInHand;
-            else if (["JACK", "QUEEN", "KING"].includes(card.value))
-                handValue += 10;
-            else
-                handValue += parseInt(card.value);
-        }
-
-        for (let i = 0; i < acesInHand; ++i) {
-            if (handValue + 11 <= 21) {
-                handValue += 11;
-                twoOptions = true;
-            } else
-                ++handValue;
-        }
-        console.log(handValue)
-        this.handValue = handValue;
-        this.handValueToString = `${twoOptions ? `${handValue - 10} / ` : ''}${handValue}`;
-    }
-
-    async drawCard() {
-        try {
-            const response: Response = await
-                fetch(`https://www.deckofcardsapi.com/api/deck/${this.game.getDeckId()}/draw/?count=1`);
-            const data = await response.json();
-            console.log(data)
-            if (data.success) {
-                console.info(data.cards[0].value);
-                this.hand = [...this.hand, data.cards[0]];
-            }
-        } catch (error) {
-            console.error("Failed to draw a card", error);
-        }
-        this.countHand();
-    }
-
-    public resetHand() {
-        this.hand = [];
-        this.handValue = 0;
-        this.handValueToString = '';
-    }
-
-    public getHand() {
-        return this.hand;
-    }
-
-    public getCard(index: number) {
-        return this.hand[index];
-    }
-
-    public getHandValueToString() {
-        return this.handValueToString;
-    }
-
-    public getHandValue() {
-        return this.handValue;
-    }
-}
-
-export class Player extends AbstractPlayer {
-
-    private id: string;
-    private name: string;
-    private chipBalance: number;
-    private isPlaying: boolean;
-    private isStanding: boolean;
-    private bet: number;
-
-    public constructor(public player: PlayerJson) {
-        super();
-        this.id = player.id;
-        this.name = player.name;
-        this.chipBalance = player.chipBalance;
-        this.isPlaying = false;
-        this.isStanding = false;
-        this.bet = 0;
-    }
-
-    public resetHand() {
-        super.resetHand();
-        this.isPlaying = false;
-        this.isStanding = false;
-    }
-
-    public getBet() {
-        return this.bet;
-    }
-
-    public setBet(bet: number) {
-        this.bet = bet;
-    }
-
-    public getName() {
-        return this.name;
-    }
-
-    public handleBet(win: boolean) {
-        win ? this.chipBalance += this.bet : this.chipBalance -= this.bet;
-        this.bet = 0;
-    }
-
-    public getChipBalance() {
-        return this.chipBalance;
-    }
-
-    public getIsStanding(){
-        return this.isStanding;
-    }
-
-    public getIsPlaying() {
-        return this.isPlaying;
-    }
-
-    public setIsStanding(isStanding: boolean) {
-        this.isStanding = isStanding;
-    }
-
-    public setIsPlaying(isPlaying: boolean) {
-        this.isPlaying = isPlaying;
-    }
-}
-
-export class Dealer extends AbstractPlayer {
-    private static instance: Dealer;
-
-    private constructor() {
-        super();
-    }
-
-    public async executeEnd() {
-        while (this.handValue < 17)
-            await this.drawCard();
-    }
-
-    // Singleton
-    public static getInstance(): Dealer {
-        if (!Dealer.instance) {
-            Dealer.instance = new Dealer();
-        }
-        return Dealer.instance;
-    }
-}
+import {PlayerJson} from "./Types";
+import {Player} from "./Player";
+import {Dealer} from "./Dealer";
 
 export class Game {
     private static instance: Game;
-    private deckId: string | undefined;
+    private static deckId: string | undefined;
     private dealer: Dealer;
     private players: Player[];
+    private isPlaying: boolean;
+    public update = 0;
 
-    private constructor() {
-        this.fetchDeck().then(deckId => this.deckId = deckId);
-        this.dealer = Dealer.getInstance();
+    private constructor(dealer: Dealer) {
+        this.dealer = dealer;
         this.players = [];
+        this.isPlaying = false;
     }
 
     // Singleton
     public static getInstance(): Game {
         if (!Game.instance) {
-            Game.instance = new Game();
+            // Pass the Dealer instance as a parameter to the constructor
+            const dealerInstance = Dealer.getInstance();
+            Game.instance = new Game(dealerInstance);
+            // initialize deck as static, for drawing cards by players
+            this.initializeDeck()
+                .then(deckId => this.deckId = deckId);
         }
         return Game.instance;
     }
 
-    private async fetchDeck() {
+    // fetch new deck from The Deck API
+    private static async initializeDeck(): Promise<string | undefined> {
         try {
-            const response: Response = await fetch('https://www.deckofcardsapi.com/api/deck/new/');
+            const response = await fetch('https://www.deckofcardsapi.com/api/deck/new/');
             const data = await response.json();
             if (data.success) {
                 console.info(data.deck_id);
                 return data.deck_id;
             }
         } catch (exception) {
-            console.error("Failed to fetch a new deck", exception);
+            console.error('Failed to fetch a new deck', exception);
         }
     }
 
-    public getPlayers() {
+    // Draw two cards for each player and one for dealer
+    public async startGame(stopLoading: () => void):Promise<void> {
+        if (!Game.getDeckId()) return;
+        this.isPlaying = true;
+        this.dealer.reset();
+        console.info("Starting Game");
+        try {
+            await fetch(`https://www.deckofcardsapi.com/api/deck/${Game.getDeckId()}/shuffle/`);
+            await this.dealer.drawCard();
+            stopLoading();
+            for (let i = 0; i < 2; i++) {
+                for (let j = 0; j < this.players.length; j++) {
+                    let tmpPlayer = this.players[j];
+                    tmpPlayer.setBlackJack(false);
+                    await tmpPlayer.drawCard();
+                    if (tmpPlayer.getHandValue() === 21) {
+                        tmpPlayer.setBlackJack(true);
+                        tmpPlayer.setIsStanding(true)
+                    }
+                    // Drawing delay
+                    await new Promise(resolve => setTimeout(resolve, 500));
+                }
+            }
+        } catch (exception) {
+            console.error("Failed to start the game", exception);
+        }
+    }
+
+    // Finish dealer drawing and evaluate game
+    public async endGame():Promise<void> {
+        console.info("Ending Game");
+        try {
+            await this.dealer.finishDrawing();
+            // Delay calculations from dealer animations
+            await new Promise(resolve => setTimeout(resolve, 3000));
+            const dealerHandValue = this.dealer.getHandValue();
+            for (let i = 0; i < this.players.length; i++) {
+                const tmpPlayer = this.players[i]
+                const tmpPlayerHandValue = tmpPlayer.getHandValue();
+                tmpPlayer.resetBetIncome();
+                if (tmpPlayer.getBlackJack() || (dealerHandValue > 21 && tmpPlayerHandValue <= 21) ||
+                    (dealerHandValue < tmpPlayerHandValue && tmpPlayerHandValue <= 21))
+                        tmpPlayer.handleBet(true);
+                else if ((dealerHandValue <= 21 && dealerHandValue > tmpPlayerHandValue) || tmpPlayerHandValue > 21)
+                    tmpPlayer.handleBet(false);
+                if (tmpPlayer.getChipBalance() <= 0)
+                    this.players = this.players.filter(player => player.getId() !== tmpPlayer.getId());
+                else
+                    tmpPlayer.reset()
+                this.savePlayerState();
+            }
+        } catch (exception) {
+            console.error("Failed to end the game", exception);
+        }
+        this.isPlaying = false;
+    }
+
+    // Save current state of players to local storage
+    public savePlayerState(): void {
+        const playersToSave: PlayerJson[] = [];
+        for (let i = 0; i < this.players.length; i++) {
+            const tmpPlayer = this.players[i];
+            playersToSave.push({id: tmpPlayer.getId(), name: tmpPlayer.getName(), chipBalance: tmpPlayer.getChipBalance()});
+        }
+        localStorage.setItem("playersData", JSON.stringify(playersToSave));
+    }
+
+    // Get players from local storage
+    public getPlayers(): Player[] {
         const playersData = localStorage.getItem('playersData');
-        const playersJson = playersData ? JSON.parse(playersData) : [];
+        const playersJson: PlayerJson[] = playersData ? JSON.parse(playersData) : [];
         const playerInstances = playersJson.map((playerJson: PlayerJson) => new Player(playerJson));
-        playerInstances[0].setIsPlaying(true);
         this.players = playerInstances;
         return playerInstances;
     }
 
-    public getResults(players: Player[], dealer: Dealer) {
-        for (let i = 0; i < players.length; ++i) {
-            players[i].getHandValue() > dealer.getHandValue() ?
-                players[i].handleBet(true) : players[i].handleBet(false);
-        }
+    public static getDeckId(): string | undefined {
+        return this.deckId;
     }
 
-    public getDeckId() {
-        return this.deckId;
+    public getIsPlaying(): boolean {
+        return this.isPlaying;
     }
 }

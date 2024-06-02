@@ -3,7 +3,6 @@
     top: 50%;
     left: 50%;
     width: 100vh;
-    /*height: 70vh;*/
     transform: translate(-50%, -50%);
     display: grid;
     padding: 6px 16px;
@@ -73,104 +72,104 @@
 }
 
 /*Player Container*/
-.player-container {
-    margin-left: 60px;
-    grid-area: player-container;
-}
+    .player-container {
+        margin-left: 60px;
+        grid-area: player-container;
+    }
 
-#👤 {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 0;
-    text-decoration: none;
-    list-style: none;
-    overflow: scroll;
-    overflow-x: hidden;
-    height: 40vh;
-    gap: 0.6em;
-}
+    #👤 {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 0;
+        text-decoration: none;
+        list-style: none;
+        overflow: scroll;
+        overflow-x: hidden;
+        height: 40vh;
+        gap: 0.6em;
+    }
 
-#👤 li {
-    padding: 0;
-    width: 100%;
-}
+    #👤 li {
+        padding: 0;
+        width: 100%;
+    }
 
     /* Player Card */
-    .player-card {
-        height: 6em;
-        max-width: 25em;
-        font-size: 1em;
-        display: grid;
-        grid-template-columns: 20% 80%;
-        grid-template-rows: 25% 25% 25% 25%;
-        border: 1px solid #ccc;
-        border-radius: 8px;
-        box-sizing: border-box;
-        grid-template-areas:
-                    "button1 label1"
-                    "button1 input1"
-                    "button1 label2"
-                    "button1 input2";
-    }
+        .player-card {
+            height: 6em;
+            max-width: 25em;
+            font-size: 1em;
+            display: grid;
+            grid-template-columns: 20% 80%;
+            grid-template-rows: 25% 25% 25% 25%;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-sizing: border-box;
+            grid-template-areas:
+                        "button1 label1"
+                        "button1 input1"
+                        "button1 label2"
+                        "button1 input2";
+        }
 
-    .player-card:last-child {
-        margin-bottom: 0.5em;
-    }
+        .player-card:last-child {
+            margin-bottom: 0.5em;
+        }
 
-    .player-card .label1 {
-        display: flex;
-        align-items: end;
-        font-size: 1.1em;
-        grid-area: label1;
-    }
+        .player-card .label1 {
+            display: flex;
+            align-items: end;
+            font-size: 1.1em;
+            grid-area: label1;
+        }
 
-    .player-card .label2 {
-        display: flex;
-        align-items: end;
-        font-size: 1.1em;
-        grid-area: label2;
-    }
+        .player-card .label2 {
+            display: flex;
+            align-items: end;
+            font-size: 1.1em;
+            grid-area: label2;
+        }
 
-    .player-card .input1 {
-        grid-area: input1;
-        margin-right: 2em;
-        height: 1.1em;
-    }
+        .player-card .input1 {
+            grid-area: input1;
+            margin-right: 2em;
+            height: 1.1em;
+        }
 
-    .player-card .input2 {
-        grid-area: input2;
-        margin-right: 2em;
-        height: 1.1em;
-    }
+        .player-card .input2 {
+            grid-area: input2;
+            margin-right: 2em;
+            height: 1.1em;
+        }
 
         /* Add/Remove Player Button */
-        .player-card button {
-            place-self: center;
-            grid-area: button1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 1.5em;
-            aspect-ratio: 1/1;
-            background: none;
-            color: white;
-            border: 2px solid #ccc;
-            border-radius: var(--button-border-radius);
-            margin: 1em;
-            cursor: pointer;
-            outline: inherit;
-            transition: background-color 0.3s, border-color 0.3s; /* Add transition for smooth effect */
-        }
+            .player-card button {
+                place-self: center;
+                grid-area: button1;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                font-size: 1.5em;
+                aspect-ratio: 1/1;
+                background: none;
+                color: white;
+                border: 2px solid #ccc;
+                border-radius: var(--button-border-radius);
+                margin: 1em;
+                cursor: pointer;
+                outline: inherit;
+                transition: background-color 0.3s, border-color 0.3s; /* Add transition for smooth effect */
+            }
 
-        .player-card button:hover, #start-button:hover {
-            background-color: #f0f0f0; /* Change background color on hover or focus */
-            color: black
-        }
+            .player-card button:hover, #start-button:hover {
+                background-color: #f0f0f0; /* Change background color on hover or focus */
+                color: black
+            }
 
-        .player-card button:active {
-            background-color: #e0e0e0; /* Change background color when button is clicked */
-        }
+            .player-card button:active {
+                background-color: #e0e0e0; /* Change background color when button is clicked */
+            }
 
 @media screen and (max-width: 1035px) {
     .welcomeForm {
