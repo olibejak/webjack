@@ -39,3 +39,6 @@ npm install
 
 # Start the development server
 npm start
+
+## Acknowledgements
+This project was created as a university assignment for the KAJ course at CTU FEE.
