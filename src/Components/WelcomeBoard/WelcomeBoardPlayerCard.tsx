@@ -5,7 +5,7 @@ import {PlayerJson} from "../../Game/Types"
 interface WelcomeBoardPlayerCardProps {
     index: number;
     player: PlayerJson;
-    removePlayer: (player: PlayerJson) => void;
+    removePlayer: (playerId: string) => void;
     updatePlayer: (updatedPlayer: PlayerJson) => void;
 }
 
@@ -31,7 +31,7 @@ const WelcomeBoardPlayerCard: React.FC<WelcomeBoardPlayerCardProps>
 
     return (
         <li className="player-card">
-            <button onClick={() => removePlayer(player)}>
+            <button onClick={() => removePlayer(player.id)}>
                 <IoPersonRemoveSharp />
             </button>
             <label className="label1" htmlFor={`player-${index}-name`}>Name:</label>
