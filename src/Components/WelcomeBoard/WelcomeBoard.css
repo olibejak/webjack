@@ -244,7 +244,7 @@
     flex-shrink: 0; 
 }
 
-/* --- RESPONIVITY --- */
+/* --- RESPONSIVENESS --- */
 @media screen and (max-width: 1035px) {
     .welcomeForm {
         width: 80vw;

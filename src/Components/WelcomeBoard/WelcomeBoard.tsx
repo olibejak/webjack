@@ -25,12 +25,7 @@ function WelcomeBoard({onStartGame}: {onStartGame: any}) {
         const playerData = localStorage.getItem("playersData")
         const players = (playerData ? JSON.parse(playerData) : []);
 
-        if (players.length < 0) {
-            alert("Game must include at least one player!")
-            return false;
-        }
-
-        if (players.every((player: PlayerJson) => 
+        if (players.some((player: PlayerJson) => 
             !checkPlayerName(player.name) || !checkPlayerBalance(player.chipBalance))) {
             alert("Every player must have a name and positive balance")
             return false;
@@ -39,7 +34,7 @@ function WelcomeBoard({onStartGame}: {onStartGame: any}) {
         return true;
     }
 
-    const checkPlayerName = (name: String) => {
+    const checkPlayerName = (name: string) => {
         return name.trim() !== '';
     }
     
