@@ -41,7 +41,6 @@ function WelcomeBoardPlayerContainer() {
 
     return (
         <div className={"player-container"}>
-            <h2>Players:</h2>
             <ul id="👤">
                 {players.map((player, index) => (
                     <WelcomeBoardPlayerCard

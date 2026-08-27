@@ -2,7 +2,6 @@ function WelcomeBoardAbout() {
 
     return (
         <div className={"info"}>
-                <h2>About:</h2>
                 <article>
                     <p>This site is a university project for subject KAJ at CTU FEE made by Jakub Oliberius.</p>
                     <h3>Game information:</h3>

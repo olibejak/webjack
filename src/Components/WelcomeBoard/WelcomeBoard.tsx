@@ -8,14 +8,15 @@ import START_GAME_SOUND from "../../Media/Sounds/OK_LETS_GO.mp3";
 function WelcomeBoard({onStartGame}: {onStartGame: any}) {
 
     const [numOfPlayers] = useState(1);
+    const [activeTab, setActiveTab] = useState<'players' | 'about'>('players');
 
     const handleStartGame = () => {
         if (!checkPlayers()) {
             return;
         }
         
-            const audio = new Audio(START_GAME_SOUND);
-            audio.play();
+        const audio = new Audio(START_GAME_SOUND);
+        audio.play();
 
         onStartGame(numOfPlayers);
     }
@@ -49,13 +50,36 @@ function WelcomeBoard({onStartGame}: {onStartGame: any}) {
     return (
         <div className={"welcomeForm"}>
             <h1>Welcome to Webjack!</h1>
-            <WelcomeBoardPlayerContainer/>
-            <WelcomeBoardAbout/>
-            <button
-                id={"start-button"}
-                onClick={handleStartGame}>Start Game
-            </button>
-        </div>
+            <div className={"tab-buttons"}>
+                <button
+                    id={"players-button"} 
+                    onClick={() => setActiveTab("players")}
+                    className={activeTab === 'players' ? 'active' : ''}
+                >
+                    Players
+                </button>
+                <button
+                    id={"about-button"} 
+                    onClick={() => setActiveTab("about")}
+                    className={activeTab === 'about' ? 'active' : ''}
+                >
+                    About
+                </button>
+            </div>
+            <div className="tab-content">
+                {activeTab === 'players' ? (
+                    <>
+                    <WelcomeBoardPlayerContainer />
+                    <button
+                        id={"start-button"}
+                        onClick={handleStartGame}>Start Game
+                        </button>
+                    </>
+                ) : (
+                    <WelcomeBoardAbout />
+                )}
+            </div>
+            </div>
     )
 }
 
