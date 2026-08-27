@@ -2,10 +2,12 @@
     position: fixed;
     top: 50%;
     left: 50%;
-    width: 100vh;
+    width: 110vh;
+    height: 90vh;
     transform: translate(-50%, -50%);
-    display: grid;
-    padding: 6px 16px;
+    display: flex;
+    flex-direction: column;
+    padding: 16px 16px;
     font-weight: 400;
     border: none;
     outline: none;
@@ -15,34 +17,84 @@
     border-radius: 10px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
     transition: all 0.2s ease-in-out;
-
-    grid-template-columns: 50% 50%;
-    grid-template-rows: auto;
-    grid-template-areas:
-                    "welcome welcome"
-                    "info player-container"
-                    "info player-container"
-                    "start-button start-button";
 }
 
 .welcomeForm h1 {
     text-align: center;
-    grid-area: welcome;
-    display: block;
-    justify-content: center;
-    align-items: center;
+    flex-shrink: 0; 
 }
 
-.welcomeForm .info  {
-    grid-area: info;
+/* --- TAB BUTTONS --- */
+.tab-buttons {
+    display: flex;
+    width: 100%;
+    margin: 0;
+}
+
+.tab-buttons button {
+    flex: 1;
+    color: #ccc;
+    background-color: rgba(0, 0, 0, 0.4);
+    cursor: pointer;
+    border: 1px solid #ccc;
+    border-radius: 10px 10px 0 0;
+    padding: 0.6em;
+    font-size: 1.2em;
+    
+    margin-bottom: -1px;
+    margin-right: -1px;
+    z-index: 1;
+    transition: background-color 0.2s, color 0.2s;
+}
+
+.tab-buttons button:last-child {
+    margin-right: 0;
+}
+
+.tab-buttons button:hover:not(.active) {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    box-shadow: none;
+}
+
+.tab-buttons .active {
+    background-color: transparent;
+    border-bottom-color: transparent;
+    color: white;
+    font-weight: bold;
+    z-index: 2;
+    box-shadow: none;
+}
+/* --- TABS --- */
+.welcomeForm .tab-content {
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #ccc;
+    border-radius: 0 0 10px 10px;
+    
+    flex: 1;
+    min-height: 0; 
+    position: relative;
+    z-index: 1;
+}
+
+/* --- ABOUT --- */
+.welcomeForm .info {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-height: 0;
 }
 
 .welcomeForm article {
     display: block;
-    height: 40vh;
-    overflow: scroll;
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
     overflow-x: hidden;
     letter-spacing: .1rem;
+    padding-right: 10px;
 }
 
 .welcomeForm article a {
@@ -54,9 +106,127 @@
     text-decoration: underline;
 }
 
-#start-button {
+/* --- PLAYERS --- */
+.player-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    flex: 1;
+    min-height: 0; 
+}
+
+/* Player cards list */
+#👤 {
+    display: flex;
+    flex-direction: row;
+    align-content: flex-start;
+    justify-content: center;
+    padding: 0;
+    margin: 0;
+    text-decoration: none;
+    list-style: none;
+    flex-wrap: wrap;
+    gap: 1em;
+    
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-bottom: 10px;
+}
+
+#👤 li {
+    padding: 0;
+    width: 100%;
+}
+
+/* Player card*/
+.player-card {
+    height: 6em;
+    width: 100%;
+    max-width: 25em;
+    margin: 0 auto;
+    font-size: 1em;
+    display: grid; 
+    grid-template-columns: 20% 80%;
+    grid-template-rows: 25% 25% 25% 25%;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    box-sizing: border-box;
+    grid-template-areas:
+        "button1 label1"
+        "button1 input1"
+        "button1 label2"
+        "button1 input2";
+}
+.player-card:last-child {
+    margin-bottom: 0.5em;
+    margin: 0 auto;
+}
+
+#👤::after {
+    content: "";
+    width: 100%;
+    max-width: 25em;
+    margin: 0 auto;
+}
+
+.player-card .label1 {
+    display: flex;
+    align-items: end;
+    font-size: 1.1em;
+    grid-area: label1;
+}
+
+.player-card .label2 {
+    display: flex;
+    align-items: end;
+    font-size: 1.1em;
+    grid-area: label2;
+}
+
+.player-card .input1 {
+    grid-area: input1;
+    margin-right: 2em;
+    height: 1.1em;
+}
+
+.player-card .input2 {
+    grid-area: input2;
+    margin-right: 2em;
+    height: 1.1em;
+}
+
+.player-card button {
     place-self: center;
-    grid-area: start-button;
+    grid-area: button1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5em;
+    aspect-ratio: 1/1;
+    background: none;
+    color: white;
+    border: 2px solid #ccc;
+    border-radius: var(--button-border-radius);
+    margin: 1em;
+    cursor: pointer;
+    outline: inherit;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.player-card button:hover, #start-button:hover {
+    background-color: #f0f0f0;
+    color: black;
+}
+
+.player-card button:active {
+    background-color: #e0e0e0;
+}
+
+/* Start Button */
+#start-button {
+    transition: background-color 0.3s ease-in-out; 
     padding: 0.8em;
     font-size: 1.5em;
     display: flex;
@@ -66,153 +236,30 @@
     color: white;
     border: 2px solid #ccc;
     border-radius: 30px;
-    margin: 1em;
+    margin: 15px auto 0 auto;
     cursor: pointer;
     outline: inherit;
+    
+    width: fit-content;
+    flex-shrink: 0; 
 }
 
-/*Player Container*/
-    .player-container {
-        margin-left: 60px;
-        grid-area: player-container;
-    }
-
-    #👤 {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 0;
-        text-decoration: none;
-        list-style: none;
-        overflow: scroll;
-        overflow-x: hidden;
-        height: 40vh;
-        gap: 0.6em;
-    }
-
-    #👤 li {
-        padding: 0;
-        width: 100%;
-    }
-
-    /* Player Card */
-        .player-card {
-            height: 6em;
-            max-width: 25em;
-            font-size: 1em;
-            display: grid;
-            grid-template-columns: 20% 80%;
-            grid-template-rows: 25% 25% 25% 25%;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            box-sizing: border-box;
-            grid-template-areas:
-                        "button1 label1"
-                        "button1 input1"
-                        "button1 label2"
-                        "button1 input2";
-        }
-
-        .player-card:last-child {
-            margin-bottom: 0.5em;
-        }
-
-        .player-card .label1 {
-            display: flex;
-            align-items: end;
-            font-size: 1.1em;
-            grid-area: label1;
-        }
-
-        .player-card .label2 {
-            display: flex;
-            align-items: end;
-            font-size: 1.1em;
-            grid-area: label2;
-        }
-
-        .player-card .input1 {
-            grid-area: input1;
-            margin-right: 2em;
-            height: 1.1em;
-        }
-
-        .player-card .input2 {
-            grid-area: input2;
-            margin-right: 2em;
-            height: 1.1em;
-        }
-
-        /* Add/Remove Player Button */
-            .player-card button {
-                place-self: center;
-                grid-area: button1;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                font-size: 1.5em;
-                aspect-ratio: 1/1;
-                background: none;
-                color: white;
-                border: 2px solid #ccc;
-                border-radius: var(--button-border-radius);
-                margin: 1em;
-                cursor: pointer;
-                outline: inherit;
-                transition: background-color 0.3s, border-color 0.3s; /* Add transition for smooth effect */
-            }
-
-            .player-card button:hover, #start-button:hover {
-                background-color: #f0f0f0; /* Change background color on hover or focus */
-                color: black
-            }
-
-            .player-card button:active {
-                background-color: #e0e0e0; /* Change background color when button is clicked */
-            }
-
+/* --- RESPONIVITY --- */
 @media screen and (max-width: 1035px) {
     .welcomeForm {
-        width: 50vh;
-        grid-template-columns: 50% 50%;
-        grid-template-areas:
-                    "welcome start-button"
-                    "player-container player-container"
-                    "info info";
-    }
-
-    .player-container, #start-button {
-        margin: 0;
-    }
-
-    #start-button {
-        box-sizing: content-box;
-        height: 2em;
-        width: 5em;
-    }
-
-    #👤, .welcomeForm article {
-        height: 20vh;
+        width: 80vw;
     }
 }
 
 @media screen and (max-width: 505px) {
     .welcomeForm {
-        width: 90vw; /* Adjust the width to occupy 90% of the viewport width */
-        grid-template-columns: 1fr; /* Use a single column layout */
-        grid-template-areas:
-                    "welcome"
-                    "start-button"
-                    "player-container"
-                    "info";
-    }
-
-    .player-container {
-        margin-left: 0; /* Reset the left margin */
+        width: 95vw;
+        height: 95vh;
+        padding: 15px 10px;
     }
 
     #start-button {
-        margin: 0 auto; /* Center the button horizontally */
-        width: fit-content; /* Make the button width fit its content */
+        width: 100%;
+        margin-top: 15px;
     }
 }

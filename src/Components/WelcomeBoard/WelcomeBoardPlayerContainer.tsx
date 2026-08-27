@@ -5,20 +5,26 @@ import {PlayerJson} from "../../Game/Types"
 import { v4 as uuidv4 } from 'uuid';
 
 function WelcomeBoardPlayerContainer() {
-    const newPlayerDefault: PlayerJson = { id: uuidv4(), name: '', chipBalance: 100 };
     const playersDataString = localStorage.getItem('playersData');
     const [players, setPlayers] = useState<PlayerJson[]>(playersDataString ? JSON.parse(playersDataString) : []);
 
     const addPlayer = () => {
-        setPlayers(prevPlayers => [...prevPlayers, newPlayerDefault]);
+        setPlayers(prevPlayers => {
+        const playerName = `Player ${prevPlayers.length + 1}`;
+        const newPlayer = { id: uuidv4(), name: playerName, chipBalance: 100 }; 
+        
+        return [...prevPlayers, newPlayer];
+    });
     };
 
-    const removePlayer = (playerToRemove: PlayerJson) => {
-        const updatedPlayers = players.filter(player => player !== playerToRemove);
-        if (updatedPlayers.length === 0) {
-            updatedPlayers.push(newPlayerDefault);
-        }
+    const removePlayer = (playerIdToRemove: string) => {
+        const updatedPlayers = players.filter(player => player.id !== playerIdToRemove);
+    
         setPlayers(updatedPlayers);
+    
+        if (updatedPlayers.length === 0) {
+        addPlayer();
+        }
     };
 
     const updatePlayer = (updatedPlayer: PlayerJson) => {
@@ -35,7 +41,6 @@ function WelcomeBoardPlayerContainer() {
 
     return (
         <div className={"player-container"}>
-            <h2>Players:</h2>
             <ul id="👤">
                 {players.map((player, index) => (
                     <WelcomeBoardPlayerCard

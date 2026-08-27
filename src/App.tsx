@@ -22,9 +22,9 @@ function App() {
   // Reset players data and game start on ctr + F5
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.ctrlKey && event.key === 'F5') {
+      if (event.ctrlKey && (event.key === 'F5' || event.key.toUpperCase() === 'R')) {
         setGameStarted(false);
-        const defaultPlayer = JSON.stringify([{ id: uuidv4(), name: '', chipBalance: 100 }]);
+        const defaultPlayer = JSON.stringify([{ id: uuidv4(), name: "Player 1", chipBalance: 100 }]);
         localStorage.setItem('playersData', defaultPlayer);
         console.log('Game restarted:', gameStarted);
         window.removeEventListener('keydown', handleKeyDown);

@@ -1,79 +1,85 @@
 import {useState} from "react";
 import "./WelcomeBoard.css";
 import WelcomeBoardPlayerContainer from "./WelcomeBoardPlayerContainer";
+import WelcomeBoardAbout from "./WelcomeBoardAbout";
 import {PlayerJson} from "../../Game/Types";
+import START_GAME_SOUND from "../../Media/Sounds/OK_LETS_GO.mp3";
 
 function WelcomeBoard({onStartGame}: {onStartGame: any}) {
 
     const [numOfPlayers] = useState(1);
+    const [activeTab, setActiveTab] = useState<'players' | 'about'>('players');
 
     const handleStartGame = () => {
+        if (!checkPlayers()) {
+            return;
+        }
+        
+        const audio = new Audio(START_GAME_SOUND);
+        audio.play();
+
+        onStartGame(numOfPlayers);
+    }
+
+    const checkPlayers = () => {
         const playerData = localStorage.getItem("playersData")
         const players = (playerData ? JSON.parse(playerData) : []);
-        if (players.length > 0 && players.every((player: PlayerJson) => player.name.trim() !== '' && player.chipBalance !== null))
-            onStartGame(numOfPlayers);
-        else
-            alert("Please fill all players' data");
+
+        if (players.length < 0) {
+            alert("Game must include at least one player!")
+            return false;
+        }
+
+        if (players.every((player: PlayerJson) => 
+            !checkPlayerName(player.name) || !checkPlayerBalance(player.chipBalance))) {
+            alert("Every player must have a name and positive balance")
+            return false;
+        }
+
+        return true;
+    }
+
+    const checkPlayerName = (name: String) => {
+        return name.trim() !== '';
+    }
+    
+    const checkPlayerBalance = (balance: Number) => {
+        return balance !== null && balance > 0;
     }
 
     return (
         <div className={"welcomeForm"}>
             <h1>Welcome to Webjack!</h1>
-            <WelcomeBoardPlayerContainer/>
-            <div className={"info"}>
-                <h2>About:</h2>
-                <article>
-                    <p>This site is a university project for subject KAJ at CTU FEE made by Jakub Oliberius.</p>
-                    <h3>Game information:</h3>
-                    <ul>
-                        <li>The blue highlighted player has turn</li>
-                        <li>The red highlighted player is standing</li>
-                        <li>Cards from deck can be dragged and dropped to the active player area for triggering hit</li>
-                        <li>Player can change bet pre game</li>
-                        <li>Player data are stored in local storage</li>
-                        <li>Players with no chips will be removed</li>
-                    </ul>
-                    <h3>Links:</h3>
-                    <p>
-                        About Blackjack: <a href={"https://en.wikipedia.org/wiki/Blackjack"}
-                                            target="_blank"
-                                            rel="noreferrer noopener">
-                        Wikipedia</a>
-                    </p>
-                    <p>
-                        API used: <a href={"https://www.deckofcardsapi.com"}
-                                     target="_blank"
-                                     rel="noreferrer noopener">
-                        Deck of Cards</a>
-                    </p>
-                    <p>Music used:</p>
-                    <ul>
-                        <li>
-                            <a href={"https://www.youtube.com/watch?v=46MiO8jWR3Q&ab_channel=RobDiesALot"}
-                               target="_blank"
-                               rel="noreferrer noopener">
-                                Rob Dies A Lot - GAMBA</a>
-                        </li>
-                        <li>
-                            <a href={"https://g.co/kgs/hjNj5rG"}
-                               target="_blank"
-                               rel="noreferrer noopener">
-                                Portal - Radio Music</a>
-                        </li>
-                        <li>
-                            <a href={"https://www.youtube.com/watch?v=V2LpXOKWjus&ab_channel=buricin"}
-                               target="_blank"
-                               rel="noreferrer noopener">
-                                Milan Buričin - Sólo pro prádelní hrnec</a>
-                        </li>
-                    </ul>
-                </article>
+            <div className={"tab-buttons"}>
+                <button
+                    id={"players-button"} 
+                    onClick={() => setActiveTab("players")}
+                    className={activeTab === 'players' ? 'active' : ''}
+                >
+                    Players
+                </button>
+                <button
+                    id={"about-button"} 
+                    onClick={() => setActiveTab("about")}
+                    className={activeTab === 'about' ? 'active' : ''}
+                >
+                    About
+                </button>
             </div>
-            <button
-                id={"start-button"}
-                onClick={handleStartGame}>Start Game
-            </button>
-        </div>
+            <div className="tab-content">
+                {activeTab === 'players' ? (
+                    <>
+                    <WelcomeBoardPlayerContainer />
+                    <button
+                        id={"start-button"}
+                        onClick={handleStartGame}>Start Game
+                        </button>
+                    </>
+                ) : (
+                    <WelcomeBoardAbout />
+                )}
+            </div>
+            </div>
     )
 }
 
