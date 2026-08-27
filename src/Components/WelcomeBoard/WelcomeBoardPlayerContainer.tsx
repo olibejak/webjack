@@ -6,7 +6,8 @@ import { v4 as uuidv4 } from 'uuid';
 
 function WelcomeBoardPlayerContainer() {
     const playersDataString = localStorage.getItem('playersData');
-    const [players, setPlayers] = useState<PlayerJson[]>(playersDataString ? JSON.parse(playersDataString) : []);
+    const [players, setPlayers] = useState<PlayerJson[]>(
+        playersDataString ? JSON.parse(playersDataString) : [{ id: uuidv4(), name: "Player 1", chipBalance: 100 }]);
 
     const addPlayer = () => {
         setPlayers(prevPlayers => {
