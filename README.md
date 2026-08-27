@@ -1,36 +1,41 @@
 # Webjack
 
+Webjack is a shared screen multiplayer Blackjack web application.
 
+## Features
 
-## Cíl projektu
+* **State Management & Storage:** The welcome form features continuous validation and saves player data to `localStorage`. This data is loaded into `Player` instances when the game starts.
+* **Routing:** Navigation between the Welcome Form and the Game Table is handled via the History API.
+* **Interactive UI:** Includes an integrated audio and animations for dealing cards into the player's area.
+* **Drag & Drop Mechanic:** Players can request a new card by clicking the *HIT* button or by intuitively dragging a card from the deck directly into their playing area.
+* **Architecture:** Core game logic is separated into `Game`, `AbstractPlayer`, `Player`, and `Dealer` classes within the `Game` directory. The UI view is managed by React components in the `Components` directory.
 
-Cílem projektu bylo vytvořit plně hratelný Black Jack s možností hry vícero hráčů, jejichž postup je ukládán. Ve stávající se nenachází rozšířené aktivity Black Jacku jako např. split nebo double down.
+## Gameplay Flow
 
-## Popis funkčnosti
+* Players set their initial bets before the round begins.
+* During the game, the currently active player whose turn it is gets highlighted in **blue**.
+* Players who have chosen to *Stand* are highlighted in **red**.
+* Once all players stand, the Dealer automatically draws their cards, and the round is evaluated.
+* After evaluation, players see their updated chip balances and can immediately place new bets for the next round or return to the lobby. Players with zero chips are automatically removed.
 
-- [ ] Stránka se skládá z hlavních dvou komponent - *uvítací formulář a herní stůl* - mezi kterýmí lze navigovat pomocí History APi
-- [ ] Uvítací formulář je průběžně validován a ukládán do Local Storage a následně načítán do instancí třídy Player po začátku hry
-- [ ] V navbaru se nachází audio přehrávač - použitá hudba je adresována v uvítacím formuláři
-- [ ] Líznuté karty jsou animací přiřazeny do hráčova pole
-- [ ] Logika hry se nachází ve třídách *Game, AbstractPlayer, Player, Dealer* v adresáři *Game*
-- [ ] View hry je řízeno komponentami v adresáři *Components*
+## Tech Stack & Resources
 
-## Průběh hry
+* **Frontend:** React.js, TypeScript
+* **External APIs:** [Deck of Cards API](https://www.deckofcardsapi.com/)
 
-- [ ] Před začátkem hry je hráčům umožněno zadat sázku
-- [ ] Po zahájení hry a rozdání karet je modře zvýrazněn hráč, který je na řadě
-- [ ] Hráč, který stojí je zvýrazněn červeně
-- [ ] Mimo *HIT* tlačítko lze pro líznutí karty využít Drag&Drop v podobě přetáhnutí karty z balíčku do pole aktivního hráče
-- [ ] Ve chvíli, co všichni hráči stojí si dealer dolíže karty a hra je vyhodnocena
-- [ ] Po vyhodnocení hry je hráčům ukázán jejich stav a je jim znovu umožněno si vsadit a zahájit hru nebo se vrátit
+## Local Development
 
-## Využité zdroje
+To run this project locally, ensure you have Node.js installed, then execute the following commands:
 
-### Technologie
+```bash
+# Clone the repository
+git clone <your-repository-url>
 
-- [ ] React.js
-- [ ] TypeScript
+# Navigate into the project directory
+cd webjack
 
-### API
+# Install dependencies
+npm install
 
-- [ ] [Deck of Cards](https://www.deckofcardsapi.com)
+# Start the development server
+npm start
