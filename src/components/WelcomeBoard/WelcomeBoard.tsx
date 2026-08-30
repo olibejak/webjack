@@ -1,5 +1,5 @@
 import {useState} from "react";
-import "./WelcomeBoard.css";
+import "../styles/WelcomeBoard.css";
 import WelcomeBoardPlayerContainer from "./WelcomeBoardPlayerContainer";
 import WelcomeBoardAbout from "./WelcomeBoardAbout";
 import {PlayerJson} from "../../Game/Types";

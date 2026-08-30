@@ -12,7 +12,7 @@ nav {
 }
 
 nav button, .hamburger-icon {
-    justify-self: left;
+    justify-self: right;
     order: -1;
     place-self: flex-start;
     align-self: center;
@@ -48,12 +48,6 @@ nav h1 {
     font-family: Times New Roman, serif;
 }
 
-.dropdown-menu, .hamburger-icon {
-    display: none;
-    transition: transform 0.5s ease-out;
-    top: 0;
-}
-
 .restart-button {
     order: 2;
 }
@@ -85,12 +79,11 @@ nav h1 {
         display: flex;
         flex-direction: column;
         gap: 15px;
-        /* card from api has z-index 999 */
         z-index: 1000;
         position: fixed;
         top: 5em;
         margin-left: auto;
-        right: 0; /* Align the menu to the right */
+        left: 0;
         box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
         padding: 1.5em;
         width: 150px;

@@ -1,6 +1,4 @@
 import "./Navbar.css"
-import BackgroundMusic from "./BackgroundMusic/BackgroundMusic";
-import React from "react";
 import {GiHamburgerMenu} from "react-icons/gi";
 
 export default function Navbar() {
@@ -11,15 +9,11 @@ export default function Navbar() {
     }
 
     return (
-    <>
         <nav>
             <h1>Webjack</h1>
-            <BackgroundMusic/>
             <button className="hamburger-icon" onClick={toggleNav}><GiHamburgerMenu/></button>
             <div className="dropdown-menu">
-                <BackgroundMusic/>
             </div>
         </nav>
-    </>
     );
 }
