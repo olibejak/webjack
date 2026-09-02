@@ -14,10 +14,8 @@ export default function Navbar() {
     <>
         <nav>
             <h1>Webjack</h1>
-            <BackgroundMusic/>
             <button className="hamburger-icon" onClick={toggleNav}><GiHamburgerMenu/></button>
             <div className="dropdown-menu">
-                <BackgroundMusic/>
             </div>
         </nav>
     </>

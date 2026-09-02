@@ -6,6 +6,10 @@ import './Board.css';
 import {Game} from "../../Game/Game";
 import {Dealer} from "../../Game/Dealer";
 import {Player} from "../../Game/Player";
+import HIT_SOUND from "../../Media/Sounds/playing-card-2.mp3";
+import START_GAME_SOUND from "../../Media/Sounds/shuffling-deck-of-cards.mp3";
+import STAND_SOUND from "../../Media/Sounds/knock-on-door.mp3"
+import END_GAME_SOUND from "../../Media/Sounds/placing-poker-chips.mp3"
 
 interface BoardProps {
     dealer: Dealer;
@@ -30,8 +34,8 @@ const Board: React.FC<BoardProps> = ({dealer, game, restartGame}) => {
 
     const handleStart = async () => {
         setLocked(true);
-        // setPlayers(game.getPlayers());
         setLoading(true);
+        playSound(START_GAME_SOUND);
         await game.startGame(() => setLoading(false));
         setPreGame(false);
         setActivePlayerIndex(-1);
@@ -43,6 +47,7 @@ const Board: React.FC<BoardProps> = ({dealer, game, restartGame}) => {
         setLocked(true)
         setLoading(true);
         await players[activePlayerIndex].drawCard();
+        playSound(HIT_SOUND)
         setLoading(false);
         await setActivePlayer();
         setLocked(false)
@@ -50,10 +55,16 @@ const Board: React.FC<BoardProps> = ({dealer, game, restartGame}) => {
 
     const handleStand = async () => {
         setLocked(true)
+        playSound(STAND_SOUND);
         players[activePlayerIndex].setIsStanding(true);
         await setActivePlayer();
         setLocked(false)
     };
+
+    const playSound = (sound: string) => {
+        const audio = new Audio(sound);
+        audio.play();
+    }
 
     // Tries to find active player
     // If every player stands, ends the game
@@ -71,6 +82,7 @@ const Board: React.FC<BoardProps> = ({dealer, game, restartGame}) => {
 
     const handleEnd = async () => {
         await game.endGame();
+        playSound(END_GAME_SOUND);
         setPreGame(true);
     }
 
