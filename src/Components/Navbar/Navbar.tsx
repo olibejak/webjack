@@ -1,5 +1,4 @@
 import "./Navbar.css"
-import BackgroundMusic from "./BackgroundMusic/BackgroundMusic";
 import React from "react";
 import {GiHamburgerMenu} from "react-icons/gi";
 
